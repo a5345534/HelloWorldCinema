@@ -1,5 +1,6 @@
 package com.entity;
 
+import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,8 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-import com.entity.Mem;
+import org.springframework.format.annotation.DateTimeFormat;
+
+
 
 @Entity
 @Table(name = "rental_order")
@@ -25,55 +30,73 @@ public class RentalOrder {
 	@Column(name = "rental_id")
 	private Integer rentalId;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "mem_id", referencedColumnName = "mem_id")
 	private Mem mem;
 
+	@NotNull(message="影廳編號: 請勿空白")
 	@ManyToOne
 	@JoinColumn(name = "screen_id" , referencedColumnName = "screen_id")
 	private Screen screen;
 
+	@NotNull(message="租借日期: 請勿空白")
+	@DateTimeFormat(pattern="yyyy-MM-dd") 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "rental_date")
 	private Date rentalDate;
 
+	@NotNull(message="預計開始時間: 請勿空白")
+	@DateTimeFormat(pattern="HH:mm:ss") 
 	@Temporal(TemporalType.TIME)
 	@Column(name = "start_time")
 	private Date startTime;
 
+	@NotNull(message="預計結束時間: 請勿空白")
+	@DateTimeFormat(pattern="HH:mm:ss") 
 	@Temporal(TemporalType.TIME)
 	@Column(name = "end_time")
 	private Date endTime;
 
+	@NotEmpty(message="申請理由: 請勿空白")
 	@Column(name = "reason")
 	private String reason;
 
+	@NotEmpty
 	@Column(name = "result")
 	private String result;
 
+	@NotNull
+	@DateTimeFormat(pattern="yyyy-MM-dd") 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "apply_date")
 	private Date applyDate;
 
+//	@NotNull
 	@Column(name = "price")
 	private Integer price;
 
+	@NotEmpty(message="付款方式: 請勿空白")
 	@Column(name = "payment_type")
 	private String paymentType;
 
+	@NotEmpty
 	@Column(name = "payment_status")
 	private String paymentStatus;
 
+//	@NotNull
 	@Column(name = "deposit")
 	private Integer deposit;
 
+	@NotEmpty
 	@Column(name = "deposit_refund")
 	private String depositRefund;
 
+	@NotNull
 	@Column(name = "total")
 	private Integer total;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "emp_id" , referencedColumnName = "emp_id")
 	private Emp emp;
 
@@ -144,7 +167,7 @@ public class RentalOrder {
 		this.startTime = startTime;
 	}
 
-	public Date getEndTime() {
+	public Date  getEndTime() {
 		return endTime;
 	}
 

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>場地租借</title>
+    
+        <link th:href="@{https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css}" rel='stylesheet'>
+        <link rel="stylesheet" type="text/css"  th:href="@{/back_end/management/css/management.css}" href="../../../static/back_end/management/css/management.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/back_end/rental/listAllRental.css}" href="../../../static/back_end/rental/listAllRental.css">
+
+
+    </head>
+
+
+
+	<body>
+
+        <aside th:replace="~{/back_end/mem/management :: content}"></aside>
+
+		<main>
+
+			<div class="container">
+				
+                <div class="errorMsgs" th:if="${errorMsgs}">
+                    <ul>
+                        <li th:each="errors : ${errorMsgs}" th:text="${errors.defaultMessage}"></li>
+                    </ul>
+                </div>
+                
+                <div th:if="${AllRentalOrderListData}">
+                    <table id="table-1" border="1">
+                        <h1>租借訂單資料</h1>
+                        <a th:href="@{/rental/select}">回首頁</a>
+                        <!-- <h4><label th:text="${success}"></label></h4> -->
+                        <tr>
+                            <th>表單編號</th>
+                            <th>會員編號</th>
+                            <th>影廳編號</th>
+                            <th>租借日期</th>
+                            <th>預計開始時間</th>
+                            <th>預計結束時間</th>
+                            <th>申請理由</th>
+                            <th>付款方式</th>
+                            <!-- <th>付款狀態</th> -->
+                            <!-- <th>押金歸還</th> -->
+                            <!-- <th>影廳價格</th> -->
+                            <!-- <th>押金</th> -->
+                            <!-- <th>合計</th> -->
+                            <th>申請日期</th>
+                            <th>審核狀態</th>
+                            <th>員工編號</th>
+                            <th>修改</th>
+                        </tr>
+                        <tr th:each="rentalOrder : ${AllRentalOrderListData}">
+                            <td th:text="${rentalOrder.rentalId}"></td>
+                            <td th:text="${rentalOrder.mem.memId}"></td>
+                            <td th:text="${rentalOrder.screen.screenId}"></td>
+                            <td th:text="${#dates.format(rentalOrder.rentalDate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#dates.format(rentalOrder.startTime, 'HH:mm:ss')}"></td>
+                            <td th:text="${#dates.format(rentalOrder.endTime, 'HH:mm:ss')}"></td>
+                            <td th:text="${rentalOrder.reason}"></td>
+                            <td th:text="${rentalOrder.paymentType}"></td>
+                            <!-- <td th:text="${rentalOrder.paymentStatus}"></td> -->
+                            <!-- <td th:text="${rentalOrder.depositRefund}"></td> -->
+                            <!-- <td th:text="${rentalOrder.price}"></td> -->
+                            <!-- <td th:text="${rentalOrder.deposit}"></td> -->
+                            <!-- <td th:text="${rentalOrder.total}"></td> -->
+                            <td th:text="${#dates.format(rentalOrder.applyDate, 'yyyy-MM-dd')}"></td>
+                            <td> 
+                                <select name="result" style="width: 50px;" class="resultSelect" onchange="updateResultValues()">
+                                    <option value="審核中" th:selected="${result == '審核中'}" >審核中</option>
+                                    <option value="通過" th:selected="${result == '通過'}" >通過</option>
+                                    <option value="未通過" th:selected="${result == '未通過'}" >未通過</option>
+                                    <!-- <option value="取消訂單" th:selected="${result == '取消訂單'}" >取消訂單</option> -->
+                                </select>    
+                            </td>
+                            <td>
+                                <input type="text" name="emp.empId"  maxlength="4" style="width: 50px;" class="empSelect" th:value="${rentalOrder.emp != null ? rentalOrder.emp?.empId : ''}" onchange="updateEmpValues()">
+                                <!-- th:value="${rentalOrder.emp != null ? rentalOrder.emp?.empId : ''}" -->
+                            </td>
+                            <td>
+                                <form method="post" th:action="@{/rental/update}" th:object="${rentalOrder}">
+                                    <button type="submit" >審核</button>
+                                    <input type="hidden" name="rentalId" th:value="${rentalOrder.rentalId}">
+                                    <input type="hidden" name="mem.memId" th:value="${rentalOrder.mem.memId}">
+                                    <input type="hidden" name="screen.screenId" th:value="${rentalOrder.screen.screenId}">
+                                    <input type="hidden" name="rentalDate" th:value="${rentalOrder.rentalDate}">
+                                    <input type="hidden" name="startTime" th:value="${rentalOrder.startTime}">
+                                    <input type="hidden" name="endTime" th:value="${rentalOrder.endTime}">
+                                    <input type="hidden" name="reason" th:value="${rentalOrder.reason}">
+                                    <input type="hidden" name="paymentType" th:value="${rentalOrder.paymentType}">
+                                    <input type="hidden" name="paymentStatus" th:value="${rentalOrder.paymentStatus}">
+                                    <input type="hidden" name="depositRefund" th:value="${rentalOrder.depositRefund}">
+                                    <input type="hidden" name="price" th:value="${rentalOrder.price}">
+                                    <input type="hidden" name="deposit" th:value="${rentalOrder.deposit}">
+                                    <input type="hidden" name="total" th:value="${rentalOrder.total}">
+                                    <input type="hidden" name="applyDate" th:value="${rentalOrder.applyDate}">
+                                    <input type="hidden" name="result" th:value="${rentalOrder.result}" class="hiddenResult">
+                                    <input type="hidden" name="emp.empId" th:value="${rentalOrder.emp != null ? rentalOrder.emp?.empId : ''}" class="hiddenEmp">
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+
+			</div>
+		</main>
+
+        <script th:src="@{/back_end/management/js/management.js}" src="../../../static/back_end/management/js/management.js"></script>
+       
+        <script>
+            function updateResultValues() {
+                var resultSelects = document.querySelectorAll(".resultSelect");
+                var hiddenResults = document.querySelectorAll(".hiddenResult");
+                for (var i = 0; i < resultSelects.length; i++) {
+                    hiddenResults[i].value = resultSelects[i].value;
+                }
+            }
+        
+            function updateEmpValues() {
+                var empSelects = document.querySelectorAll('.empSelect');
+                var hiddenEmps = document.querySelectorAll('.hiddenEmp');
+                for (var i = 0; i < empSelects.length; i++) {
+                    hiddenEmps[i].value = empSelects[i].value;
+                }
+            }
+
+
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     var empSelects = document.querySelectorAll('.empSelect');
+            //     var hiddenEmps = document.querySelectorAll('.hiddenEmp');
+            //     for (var i = 0; i < empSelects.length; i++) {
+            //         empSelects[i].addEventListener('input', function() {
+                        
+            //             hiddenEmps[i].value = this.value;
+            //             console.log(this.valuee);
+            //         });
+            //     }
+            //     console.log(hiddenEmps[0].value);
+            //     console.log(hiddenEmps[2].value);
+        
+            //     var resultSelects = document.querySelectorAll('.resultSelect');
+            //     for (var i = 0; i < resultSelects.length; i++) {
+            //         resultSelects[i].addEventListener('input', updateResultValues);
+            //     }
+            // });
+        </script>
+        
+        
+
+
+	</body>
+</html>
