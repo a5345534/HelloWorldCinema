@@ -99,3 +99,6 @@ button {
   text-align: center;
 }
 
+input.invalid {
+  background-color: #ffdddd;
+}
