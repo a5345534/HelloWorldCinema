@@ -24,17 +24,17 @@ public class MerchController {
     public String showProductPage(@PathVariable Integer id, Model model) {
         Merch merch = merchService.getbyMerchId(id);
         model.addAttribute("merch", merch);
-        return "front_end/TestSingleMerch"; // 返回單獨商品頁面的HTML文件名
+        return "front_end/merchStore/TestSingleMerch"; // 返回單獨商品頁面的HTML文件名
     }
 
     @GetMapping("/front")
     public String front() {
-        return "front_end/TestMerchStore";
+        return "front_end/merchStore/TestMerchStore";
     }
 
     @GetMapping("/frontsingle")
     public String frontsingle() {
-        return "front_end/TestSingleMerch";
+        return "front_end/merchStore/TestSingleMerch";
     }
 
     @PostMapping("/toggleMerchStatus")
@@ -56,7 +56,7 @@ public class MerchController {
 
         Merch merch = new Merch();
         model.addAttribute(merch);
-        return "addMerch";
+        return "back_end/merchStore/addMerch";
     }
 
     @PostMapping("/insertMerch")
@@ -65,7 +65,7 @@ public class MerchController {
         List<Merch> list = merchService.getAll();
         model.addAttribute("merchListDate", list);
         model.addAttribute("success", "修改成功");
-        return "back_end/listAllMerch";
+        return "back_end/merchStore/listAllMerch";
 
     }
 
@@ -73,7 +73,7 @@ public class MerchController {
     public String getbyMerchId(@RequestParam("merchId") Integer merchId, Model model) {
         Merch merch = merchService.getbyMerchId(merchId);
         model.addAttribute("Merch", merch);
-        return "front_end/TestSingleMerch";
+        return "front_end/merchStore/TestSingleMerch";
 
     }
 
@@ -83,7 +83,7 @@ public class MerchController {
         merchService.updateMerch(merch);
         model.addAttribute("success", "修改成功");
         merch = merchService.getbyMerchId(Integer.valueOf(merch.getMerchId()));
-        return "getbyMerchId";
+        return "back_end/merchStore/getbyMerchId";
 
     }
 
@@ -93,7 +93,7 @@ public class MerchController {
         List<Merch> list = merchService.getAll();
         model.addAttribute("merchListDate", list);
         model.addAttribute("success", "刪除成功");
-        return "back_end/listAllMerch";
+        return "back_end/merchStore/listAllMerch";
 
 
     }
@@ -102,7 +102,7 @@ public class MerchController {
     public String listAllMerch(Model model) {
         List<Merch> merchList = merchService.getAll();
         model.addAttribute("merchListData", merchList);
-        return "back_end/listAllMerch";
+        return "back_end/merchStore/listAllMerch";
     }
 
     @ModelAttribute("merchListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
@@ -116,7 +116,7 @@ public class MerchController {
     public String MerchStatus(Model model){
         List<Merch> merchlist = merchService.getbyMerchStatus("上架");
         model.addAttribute("merchStatusList",merchlist);
-        return "front_end/TestMerchStore";
+        return "front_end/merchStore/TestMerchStore";
     }
 
 

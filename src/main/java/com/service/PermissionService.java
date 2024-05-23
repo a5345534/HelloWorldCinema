@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -36,7 +37,7 @@ public class PermissionService {
     }
 
 
-    public String getPermissionsByJobId(Integer jobId) throws JsonProcessingException {
+    public List<Permission> getPermissionsByJobId(Integer jobId) throws JsonProcessingException {
         List<Permission> jobs = permissionRepository.findByJobId(jobId);
         List<Integer> funIds = new ArrayList<>();
         for (Permission p : jobs) {
@@ -47,6 +48,10 @@ public class PermissionService {
         String funcIdsString = mapper.writeValueAsString(funIds);
         String encodedFuncIds = Base64.getEncoder().encodeToString(funcIdsString.getBytes());
         return encodedFuncIds;
+    }
+
+    public List<Permission> getAll() {
+        return permissionRepository.findAll();
     }
 }
 
