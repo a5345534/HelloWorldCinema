@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css"  th:href="@{/back_end/management/css/management.css}" href="../../../static/back_end/management/css/management.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" type="text/css" th:href="@{/back_end/mem/listOneMem.css}" href="../../../static/back_end/mem/listOneMem.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/back_end/func/}" >
 
 
 </head>
@@ -19,14 +19,13 @@
 
 
 <body>
-<aside th:replace="~{/back_end/mem/management :: content}"></aside>
+<aside th:replace="~{/back_end/management :: content}"></aside>
 
 <main>
 
     <div class="container">
         <table id="table-1" border="1">
-            <h1>會員資料</h1>
-            <a th:href="@{/mem/select}">回首頁</a>
+            <h1>員工權限</h1>
             <!-- <h4><label th:text="${success}"></label></h4> -->
 
             <tr>
@@ -37,16 +36,16 @@
                 <th>修改</th>
             </tr>
 
-            <tr th:each="func : ${}">
-                <td th:text="${memStat.count}"></td>
-                <td th:text="${mem.memId}"></td>
-                <td th:text="${mem.memAcount}"></td>
-                <td th:text="${mem.memAcount}"></td>
+            <tr th:each="func : ${listAllFunc}">
+                <td th:text="${funcStat.count}"></td>
+                <td th:text="${func.funcId}"></td>
+                <td th:text="${func.memAcount}"></td>
+                <td th:text="${func.memAcount}"></td>
 
                 <td>
-                    <form method="post" th:action="@{/mem/getOne_For_Update}" th:object="${mem}">
+                    <form method="post" th:action="@{/func/listAllFunc}" th:object="${func}">
                         <button type="submit" value="修改">修改</button>
-                        <input type="hidden" name="memId" th:value="${mem.memId}">
+                        <input type="hidden" name="funcId" th:value="${func.funcId}">
                     </form>
                 </td>
             </tr>

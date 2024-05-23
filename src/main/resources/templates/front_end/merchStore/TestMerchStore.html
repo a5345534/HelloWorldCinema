@@ -90,7 +90,7 @@
 
                 </li>
                 <li class="nav__menu-item">
-                    <a href="TestMerchStore.html"><h4 class="neon2">周邊商城</h4></a>
+                    <a href="/merch/front"><h4 class="neon2">周邊商城</h4></a>
                     <ul class="nav__submenu">
                         <li class="nav__submenu-item">
                             <a href=""></a>
@@ -141,7 +141,7 @@
     <div id="shop" class="horizontal-products" >
 
 
-        <div class="products" th:each="merch : ${merchListData}">
+        <div class="products" th:each="merch : ${merchListStatus}">
             <a th:href="@{/merch/merchId/{id}(id=${merch.merchId})}">
                 <img class="product-image" th:src="${merch.merchImg}">
             <p class="product-name"><span th:text="${merch.merchName}"></span></p>

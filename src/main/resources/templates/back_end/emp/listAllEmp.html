@@ -6,7 +6,7 @@
     <title>所有員工資料 - listAllEmp.html</title>
 
     <!--    <head th:insert="~{/included-fragment}"></head>-->
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+<!--    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>-->
     <link rel="stylesheet" th:href="@{/back_end/index.css}"/>
     <!--    <link rel="stylesheet" th:href="@{/error.css}"/>-->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -53,13 +53,23 @@
         body {
             margin: 1rem 12rem 2rem 12rem;
         }
+
+        .content {
+            width: 80vw;
+            background: white;
+            border-radius: 10px;
+            margin: 100px;
+            padding: 50px;
+
+        }
+
     </style>
 </head>
 <body>
 <div th:fragment="content">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-center">
         <div align="center"><h2>所有員工資料 - listAllEmp.html</h2>
-            <h3><a class="navbar-brand" th:href="@{/emp/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label
+            <h3><a class="navbar-brand" th:href="@{/emp/select_page}">回查詢頁<label
                     th:text="${success}"></label></a></h3></div>
     </nav>
 

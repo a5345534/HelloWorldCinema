@@ -28,9 +28,14 @@ public class MerchController {
     }
 
     @GetMapping("/front")
-    public String front() {
+        public String front() {
         return "front_end/merchStore/TestMerchStore";
     }
+
+
+//    public String front() {
+//        return "front_end/merchStore/TestMerchStore";
+//    }
 
     @GetMapping("/frontsingle")
     public String frontsingle() {
@@ -118,6 +123,14 @@ public class MerchController {
         model.addAttribute("merchStatusList",merchlist);
         return "front_end/merchStore/TestMerchStore";
     }
+
+    @ModelAttribute("merchListStatus")
+    public List<Merch> listStatus(Model model){
+        List<Merch> list = merchService.getbyMerchStatus("上架");
+        return list;
+    }
+
+
 
 
 }

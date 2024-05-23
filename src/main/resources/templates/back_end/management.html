@@ -122,7 +122,7 @@
                     <a class="items" href="http://localhost:8081/HelloWorldCinema/back_end/food/select_page.jsp">
                         <span class="itemstooltip">餐影管理</span>
                     </a>
-                    <a class="items" href="">
+                    <a class="items" href="/merch/listAllMerch">
                         <span class="itemstooltip">周邊管理</span>
                     </a>
 
@@ -148,15 +148,18 @@
                 </div>
             </li>
             <li th:if="${permissions.contains(7)}">
-                <a href="">
+                <a href="/emp/listAllEmp">
                     <i class='bx bxs-file'></i>
                     <span class="nav-item">員工管理</span>
                 </a>
-                <span class="tooltip">員工管理</span>
+                <span class="tooltip" >員工管理</span>
 
                 <div class="side">
-                    <a class="items" href="/emp/listAllEmp">
-                        <span class="itemstooltip">員工基本資料</span>
+                    <a class="items" href="/emp/select_page">
+                        <span class="itemstooltip">查詢員工</span>
+                    </a>
+                    <a class="items" href="/emp/addEmp">
+                        <span class="itemstooltip">新增員工基本資料</span>
                     </a>
                     <a class="items" href="">
                         <span class="itemstooltip">員工權限管理</span>
@@ -181,7 +184,7 @@
                 </div>
             </li>
             <li>
-                <a href="">
+                <a href="emp/toLogin">
                     <i class="bx bx-log-out"></i>
                     <span class="nav-item">Logout</span>
                 </a>
@@ -197,4 +200,21 @@
 <div th:include="websocket/client_chat"></div>
 </body>
 <script th:src="@{/back_end/management.js}"></script>
+<style>
+    .content {
+        width: 80vw;
+        background: white;
+        border-radius: 10px;
+        margin: 100px 100px 100px 200px;
+        padding: 50px;
+
+    }
+
+    .items{
+
+
+
+    }
+</style>
+
 </html>
