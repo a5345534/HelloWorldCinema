@@ -53,17 +53,17 @@
 
             </li>
             <li th:if="${permissions.contains(2)}">
-                <a href="">
+                <a th:href="@{/mem/select}">
                     <i class='bx bx-chalkboard'></i>
                     <span class="nav-item">會員管理</span>
                 </a>
                 <span class="tooltip">會員管理</span>
 
                 <div class="side">
-                    <a class="items" href="">
+                    <a class="items" th:href="@{/mem/select}">
                         <span class="itemstooltip">會員查詢</span>
                     </a>
-                    <a class="items" href="">
+                    <a class="items" th:href="@{/mem/get_SuspendedMem}">
                         <span class="itemstooltip">帳號停權/復權</span>
                     </a>
                     <a class="items" href="">
@@ -130,14 +130,14 @@
                 </div>
             </li>
             <li th:if="${permissions.contains(6)}">
-                <a href="">
+                <a th:href="@{/rental/select}">
                     <i class='bx bxs-shopping-bag'></i>
                     <span class="nav-item">場地租借</span>
                 </a>
                 <span class="tooltip">場地租借</span>
 
                 <div class="side">
-                    <a class="items" href="">
+                    <a class="items" th:href="@{/rental/get_RentalOrder_For_Review}">
                         <span class="itemstooltip">租借單審核</span>
                     </a>
                     <a class="items" href="">

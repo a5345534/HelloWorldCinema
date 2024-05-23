@@ -39,7 +39,7 @@
                 </div>
     
                 <ul>
-                    <li>
+                    <li th:if="${permissions.contains(1)}">
                         <a href="">
                             <i class="bx bxs-grid-alt"></i>
                             <span class="nav-item">售票管理
@@ -63,7 +63,7 @@
                         </div>
     
                     </li>
-                    <li>
+                   <li th:if="${permissions.contains(2)}">
                         <a th:href="@{/mem/select}">
                             <i class='bx bx-chalkboard'></i>
                             <span class="nav-item">會員管理</span>
@@ -84,7 +84,7 @@
                     </li>
     
     
-                    <li>
+                    <li th:if="${permissions.contains(3)}">
                         <a href="">
                             <i class='bx bxs-discount'></i>
                             <span class="nav-item">影廳管理</span>
@@ -102,7 +102,7 @@
     
                         </div>
                     </li>
-                    <li>
+                    <li th:if="${permissions.contains(4)}">
                         <a href="">
                             <i class='bx bxs-movie'></i>
                             <span class="nav-item">資訊管理</span>
@@ -124,7 +124,7 @@
     
                         </div>
                     </li>
-                    <li>
+                   <li th:if="${permissions.contains(5)}">
                         <a href="">
                             <i class='bx bx-calendar-alt'></i>
                             <span class="nav-item">商城管理</span>
@@ -143,7 +143,7 @@
     
                         </div>
                     </li>
-                    <li>
+                    <li th:if="${permissions.contains(6)}">
                         <a th:href="@{/rental/select}">
                             <i class='bx bxs-shopping-bag'></i>
                             <span class="nav-item">場地租借</span>
@@ -162,7 +162,7 @@
     
                         </div>
                     </li>
-                    <li>
+                    <li th:if="${permissions.contains(7)}">
                         <a href="">
                             <i class='bx bxs-file'></i>
                             <span class="nav-item">員工管理</span>
@@ -181,7 +181,7 @@
     
                         </div>
                     </li>
-                    <li>
+                    <li th:if="${permissions.contains(8)}">
                         <a href="">
                             <i class='bx bx-user-circle'></i>
                             <span class="nav-item">客服中心</span>
