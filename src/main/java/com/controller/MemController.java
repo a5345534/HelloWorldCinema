@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.entity.Mem;
 import com.service.MemService;
 
@@ -181,8 +180,8 @@ public class MemController {
 				model.addAttribute("errorMsgs", "無使用權限，詳情請洽客服");
 				return "front_end/mem/mem_login";
 			} else {
-				model.addAttribute("errorMsgs", "帳號尚未完成驗證"); 
-				model.addAttribute("memEmail", mem.getMemEmail()); 
+				model.addAttribute("errorMsgs", "帳號尚未完成驗證");
+				model.addAttribute("memEmail", mem.getMemEmail());
 				return "front_end/mem/mem_verification";
 			}
 		} else {
@@ -198,14 +197,14 @@ public class MemController {
 	}
 
 	// =========================================================================================
-	@GetMapping("memUpdateF")
+	@GetMapping("f/memUpdateF")
 	public String updateMemF(Model model, HttpSession session) {
 		Mem mem = (Mem) session.getAttribute("loginSuccess");
 		model.addAttribute("mem", mem);
 		return "front_end/mem/updateMemF";
 	}
 
-	@PostMapping("updateF")
+	@PostMapping("f/updateF")
 	public String updateF(@Valid Mem mem, BindingResult result, Model model, HttpSession session) {
 		if (result.hasErrors()) {
 			model.addAttribute("errorMsgs", result.getAllErrors());
@@ -226,15 +225,25 @@ public class MemController {
 		return "front_end/mem/updateMemF";
 	}
 
+	@PostMapping("f/cancel")
+	public String cancelMem(@RequestParam Integer memId, Model model) {
+		Mem mem = memSvc.getMemById(memId);
+		mem.setMemStatus("已註銷");
+		memSvc.updateMem(mem);
+
+		model.addAttribute("errorMsgs", "- (註銷成功)");
+		return "front_end/mem/mem_login";
+	}
+
 	// ===================================
-	@GetMapping("memIndexF")
+	@GetMapping("f/memIndexF")
 	public String memIndexF(Model model, HttpSession session) {
 		Mem mem = (Mem) session.getAttribute("loginSuccess");
 		model.addAttribute("mem", mem);
 		return "/front_end/mem/mem_Index";
 	}
-	
-	//=============================================
+
+	// =============================================
 	@GetMapping("/signup")
 	public String signupMem(Model model) {
 		Mem mem = new Mem();
@@ -292,21 +301,21 @@ public class MemController {
 	}
 
 	@PostMapping("/VerifyCode")
-	public String registerMember(@RequestParam("memEmail") String memEmail, @RequestParam("inputCode") String inputCode, Model model) {
+	public String registerMember(@RequestParam("memEmail") String memEmail, @RequestParam("inputCode") String inputCode,
+			Model model) {
 		String randomCode = jedis.get(memEmail);
-		
-		
-		if(inputCode == null || inputCode.isEmpty()) {
+
+		if (inputCode == null || inputCode.isEmpty()) {
 			model.addAttribute("errorMsgs", "請輸入驗證碼");
 			model.addAttribute("memEmail", memEmail);
 			return "front_end/mem/mem_verification";
 		}
 		if (randomCode != null && randomCode.equals(inputCode)) {
-			 Mem mem = memSvc.getMemByEmail(memEmail);
-			 mem.setMemStatus("已驗證");
-			 memSvc.updateMem(mem);
-			 model.addAttribute("errorMsgs", "驗證碼已完成，請登入會員");
-				return "front_end/mem/mem_login";
+			Mem mem = memSvc.getMemByEmail(memEmail);
+			mem.setMemStatus("已驗證");
+			memSvc.updateMem(mem);
+			model.addAttribute("errorMsgs", "驗證碼已完成，請登入會員");
+			return "front_end/mem/mem_login";
 		} else {
 			model.addAttribute("errorMsgs", "驗證失敗");
 			model.addAttribute("memEmail", memEmail);
@@ -314,22 +323,20 @@ public class MemController {
 		}
 	}
 
-
 	@GetMapping("/forgetPass")
 	public String forgetPass(Model model) {
-		
+
 		return "front_end/mem/mem_forgetPass";
 	}
-	
+
 	@PostMapping("/sendNewPass")
 	public String forgotPassword(@RequestParam("memEmail") String memEmail, Model model) {
-		
-		if(memSvc.getMemByEmail(memEmail) == null) {
+
+		if (memSvc.getMemByEmail(memEmail) == null) {
 			model.addAttribute("errorMsgs", "此信箱尚未註冊");
-	        return "front_end/mem/mem_forgetPass"; 
+			return "front_end/mem/mem_forgetPass";
 		}
-		
-		
+
 		String newPassword = RandomCode();
 		String subject = "重置密碼";
 		String text = "您的新密碼是：" + newPassword;
@@ -338,13 +345,13 @@ public class MemController {
 			Mem mem = memSvc.getMemByEmail(memEmail);
 			mem.setMemPassword(newPassword);
 			memSvc.updateMem(mem);
-			
+
 			model.addAttribute("errorMsgs", "新密碼已寄出，請登入會員");
 			return "front_end/mem/mem_login";
 		} else {
 			model.addAttribute("memEmail", memEmail);
 			model.addAttribute("errorMsgs", "新密碼寄送失敗");
-			return  "front_end/mem/mem_forgetPass";
+			return "front_end/mem/mem_forgetPass";
 		}
 	}
 
