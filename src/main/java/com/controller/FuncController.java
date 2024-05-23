@@ -34,7 +34,7 @@ public class FuncController {
     @GetMapping("/listAllFunc")
     public String managePermission(@RequestParam("jobId")Integer jobId, Model model) throws JsonProcessingException {
         List<Func> func = funcService.getAll();
-        List<Permission> permissions = permissionService.getPermissionsByJobId(jobId);
+        String permissions = permissionService.getPermissionsByJobId(jobId);
         Job job = jobService.getById(jobId);
 
         model.addAttribute("func", func);

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服務客戶</title>
+    <style>
+        /* 調整 WebSocket Sessions 區塊和 Chat 區塊的排版 */
+        .container {
+            display: flex;
+        }
+
+        .sessions {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .chat {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        #messages {
+            max-height: 80vh; /* 設定最大高度 */
+            overflow-y: auto; /* 啟用垂直滾動條 */
+            /* 可選：設定其他樣式 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="sessions">
+        <h1>服務客戶</h1>
+        <table border="1">
+            <tr>
+                <th>Session ID</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="ses : ${sessions}">
+                <td th:text="${ses.key}"></td>
+                <td>
+                    <button th:attr="data-session-key=${ses.key}" onclick="joinSession(this)">Join Chat</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="chat">
+        <h1>聊天內容</h1>
+        <div id="messages"></div>
+        <span id="sessionId"></span>
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    let webSocket;
+    let sessionId = null;
+
+    function joinSession(button) {
+        sessionId = button.getAttribute('data-session-key');
+        // document.getElementById('sessionId').innerText = sessionId;
+        if (webSocket) {
+            webSocket.close();
+        }
+        webSocket = new WebSocket(`ws://localhost:8080/websocket/${sessionId}/service`);
+
+        webSocket.onmessage = function (event) {
+            let chatHistory = document.getElementById('messages');
+            let message = document.createElement('p');
+            message.textContent = event.data;
+            chatHistory.appendChild(message);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        };
+
+        webSocket.onopen = function () {
+            console.log('Connected to session: ' + sessionId);
+            let chatHistory = document.getElementById('messages');
+            chatHistory.innerHTML = ''; // 清空 messages 區塊
+        };
+
+        webSocket.onclose = function () {
+            console.log('Disconnected from session: ' + sessionId);
+        };
+    }
+
+    function sendMessage() {
+        let messageInput = document.getElementById('messageInput');
+        let message = messageInput.value;
+        if (message && webSocket && webSocket.readyState === WebSocket.OPEN) {
+            webSocket.send(message);
+            messageInput.value = '';
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聯絡客服</title>
+    <!-- Add any necessary CSS files here -->
+    <style>
+        /* Add your styles for the chat container here */
+        .chat-container {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #messages {
+            max-height: 50vh; /* 設定最大高度 */
+            overflow-y: auto; /* 啟用垂直滾動條 */
+            /* 可選：設定其他樣式 */
+        }
+    </style>
+</head>
+
+<body>
+<!-- The chat container -->
+<div class="chat-container" id="chatContainer">
+    <h1>聯絡客服</h1>
+    <div id="messages"></div>
+    <div>
+        <input type="text" id="messageInput" placeholder="Enter message">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <!-- JavaScript code for WebSocket functionality -->
+    <script>
+        let ws;
+        let chatContainer = document.getElementById('chatContainer');
+
+        function toggleChat() {
+            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+                chatContainer.style.display = 'block';
+                connectWebSocket();
+            } else {
+                chatContainer.style.display = 'none';
+                if (ws) {
+                    ws.close();
+                }
+            }
+        }
+
+        function connectWebSocket() {
+            if (!ws || ws.readyState === WebSocket.CLOSED) {
+                ws = new WebSocket('ws://localhost:8080/websocket/newConnect/customer');
+
+                ws.onopen = function () {
+                    console.log('Connected to the server');
+                    const messagesDiv = document.getElementById('messages');
+                    messagesDiv.innerHTML = ''; // 清空 messages 區塊
+                };
+
+                ws.onmessage = function (event) {
+                    appendMessage(event.data);
+                };
+
+                ws.onclose = function () {
+                    console.log('Disconnected from the server');
+                };
+
+                ws.onerror = function (error) {
+                    console.error('WebSocket Error: ' + error);
+                    ws.close();
+                    // Optionally, attempt to reconnect
+                };
+            }
+        }
+
+        function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(message);
+                document.getElementById('messageInput').value = ''; // Clear input field after sending
+            } else {
+                console.error('WebSocket is not open. Unable to send message');
+            }
+        }
+
+        function appendMessage(message) {
+            const messagesDiv = document.getElementById('messages');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            messagesDiv.append(newMessage);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto scroll to the bottom
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (ws) {
+                ws.close();
+            }
+        });
+
+    </script>
+</div>
+<!-- The floating button to toggle the chat container -->
+<button class="floating-button" onclick="toggleChat()">C</button>
+</body>
+
+</html>

@@ -37,7 +37,7 @@ public class PermissionService {
     }
 
 
-    public List<Permission> getPermissionsByJobId(Integer jobId) throws JsonProcessingException {
+    public String getPermissionsByJobId(Integer jobId) throws JsonProcessingException {
         List<Permission> jobs = permissionRepository.findByJobId(jobId);
         List<Integer> funIds = new ArrayList<>();
         for (Permission p : jobs) {
@@ -48,10 +48,6 @@ public class PermissionService {
         String funcIdsString = mapper.writeValueAsString(funIds);
         String encodedFuncIds = Base64.getEncoder().encodeToString(funcIdsString.getBytes());
         return encodedFuncIds;
-    }
-
-    public List<Permission> getAll() {
-        return permissionRepository.findAll();
     }
 }
 
