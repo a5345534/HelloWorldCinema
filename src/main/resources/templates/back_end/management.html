@@ -8,219 +8,239 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" th:href="@{/back_end/management.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    !-- 引入Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
-
-<div class="sidebar-container" id="sidebar-container">
-    <div class="sidebar">
-        <div class="top">
-            <div class="logo">
-                <i class='bx bxs-cat'></i>
-                <span>HelloWorld<br>員工後臺
+<div class="row">
+    <div class="sidebar-container col-4" id="sidebar-container">
+        <div class="sidebar">
+            <div class="top">
+                <div class="logo">
+                    <i class='bx bxs-cat'></i>
+                    <span>HelloWorld<br>員工後臺
                     </span>
+                </div>
+                <i class="bx bx-menu" id="btn"></i>
             </div>
-            <i class="bx bx-menu" id="btn"></i>
-        </div>
-        <div class="user">
-            <img src="/back_end/hakunamatata.jpg" alt="fang" class="user-img">
-            <div>
-                <p class="bold">Client B.</p>
-                <p>Admin</p>
+            <div class="user">
+                <img src="/back_end/hakunamatata.jpg" alt="fang" class="user-img">
+                <div>
+                    <p class="bold">Client B.</p>
+                    <p>Admin</p>
+                </div>
             </div>
+
+            <ul>
+                <li th:if="${permissions.contains(1)}">
+                    <a href="">
+                        <i class="bx bxs-grid-alt"></i>
+                        <span class="nav-item">售票管理</span>
+                    </a>
+
+                    <span class="tooltip">售票管理</span>
+
+                    <div class="side">
+                        <a class="items" href="">
+                            <span class="itemstooltip">查詢電影訂單</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">現場畫位</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">周邊訂單</span>
+                        </a>
+                    </div>
+
+                </li>
+                <li th:if="${permissions.contains(2)}">
+                    <a th:href="@{/mem/select}">
+                        <i class='bx bx-chalkboard'></i>
+                        <span class="nav-item">會員管理</span>
+                    </a>
+                    <span class="tooltip">會員管理</span>
+
+                    <div class="side">
+                        <a class="items" th:href="@{/mem/select}">
+                            <span class="itemstooltip">會員查詢</span>
+                        </a>
+                        <a class="items" th:href="@{/mem/get_SuspendedMem}">
+                            <span class="itemstooltip">帳號停權/復權</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">個人公告</span>
+                        </a>
+                    </div>
+                </li>
+                <li th:if="${permissions.contains(3)}">
+                    <a href="">
+                        <i class='bx bxs-discount'></i>
+                        <span class="nav-item">影廳管理</span>
+                    </a>
+                    <span class="tooltip">影廳管理</span>
+
+
+                    <div class="side">
+                        <a class="items" href="">
+                            <span class="itemstooltip">場次管理</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">票種管理</span>
+                        </a>
+
+                    </div>
+                </li>
+                <li th:if="${permissions.contains(4)}">
+                    <a href="">
+                        <i class='bx bxs-movie'></i>
+                        <span class="nav-item">資訊管理</span>
+                    </a>
+                    <span class="tooltip">資訊管理</span>
+
+
+                    <div class="side">
+                        <a class="items" href="">
+                            <span class="itemstooltip">電影資訊管理</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">討論區管理</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">最新消息管理</span>
+                        </a>
+
+
+                    </div>
+                </li>
+                <li th:if="${permissions.contains(5)}">
+                    <a href="">
+                        <i class='bx bx-calendar-alt'></i>
+                        <span class="nav-item">商城管理</span>
+                    </a>
+                    <span class="tooltip">商城管理</span>
+
+                    <div class="side">
+                        <a class="items" href="http://localhost:8081/HelloWorldCinema/back_end/food/select_page.jsp">
+                            <span class="itemstooltip">餐影管理</span>
+                        </a>
+                        <a class="items" href="/merch/listAllMerch">
+                            <span class="itemstooltip">周邊管理</span>
+                        </a>
+
+
+                    </div>
+                </li>
+                <li th:if="${permissions.contains(6)}">
+                    <a th:href="@{/rental/select}">
+                        <i class='bx bxs-shopping-bag'></i>
+                        <span class="nav-item">場地租借</span>
+                    </a>
+                    <span class="tooltip">場地租借</span>
+
+                    <div class="side">
+                        <a class="items" th:href="@{/rental/get_RentalOrder_For_Review}">
+                            <span class="itemstooltip">租借單審核</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">歸還管理</span>
+                        </a>
+
+
+                    </div>
+                </li>
+                <li th:if="${permissions.contains(7)}">
+                    <a href="/emp/listAllEmp">
+                        <i class='bx bxs-file'></i>
+                        <span class="nav-item">員工管理</span>
+                    </a>
+                    <span class="tooltip">員工管理</span>
+
+                    <div class="side">
+                        <a class="items" href="/emp/select_page">
+                            <span class="itemstooltip">查詢員工</span>
+                        </a>
+                        <a class="items" href="/emp/addEmp">
+                            <span class="itemstooltip">新增員工基本資料</span>
+                        </a>
+                        <a class="items" href="">
+                            <span class="itemstooltip">員工權限管理</span>
+                        </a>
+
+
+                    </div>
+                </li>
+                <li th:if="${permissions.contains(8)}">
+                    <a href="">
+                        <i class='bx bx-user-circle'></i>
+                        <span class="nav-item">客服中心</span>
+                    </a>
+                    <span class="tooltip">客服中心</span>
+
+                    <div class="side">
+                        <a class="items" href="/websocket/server_chat">
+                            <span class="itemstooltip">客服即時通</span>
+                        </a>
+
+
+                    </div>
+                </li>
+                <li>
+                    <a href="emp/toLogin">
+                        <i class="bx bx-log-out"></i>
+                        <span class="nav-item">Logout</span>
+                    </a>
+                    <span class="tooltip">Logout</span>
+                </li>
+            </ul>
         </div>
-
-        <ul>
-            <li th:if="${permissions.contains(1)}">
-                <a href="">
-                    <i class="bx bxs-grid-alt"></i>
-                    <span class="nav-item">售票管理</span>
-                </a>
-
-                <span class="tooltip">售票管理</span>
-
-                <div class="side">
-                    <a class="items" href="">
-                        <span class="itemstooltip">查詢電影訂單</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">現場畫位</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">周邊訂單</span>
-                    </a>
-                </div>
-
-            </li>
-            <li th:if="${permissions.contains(2)}">
-                <a th:href="@{/mem/select}">
-                    <i class='bx bx-chalkboard'></i>
-                    <span class="nav-item">會員管理</span>
-                </a>
-                <span class="tooltip">會員管理</span>
-
-                <div class="side">
-                    <a class="items" th:href="@{/mem/select}">
-                        <span class="itemstooltip">會員查詢</span>
-                    </a>
-                    <a class="items" th:href="@{/mem/get_SuspendedMem}">
-                        <span class="itemstooltip">帳號停權/復權</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">個人公告</span>
-                    </a>
-                </div>
-            </li>
-            <li th:if="${permissions.contains(3)}">
-                <a href="">
-                    <i class='bx bxs-discount'></i>
-                    <span class="nav-item">影廳管理</span>
-                </a>
-                <span class="tooltip">影廳管理</span>
-
-
-                <div class="side">
-                    <a class="items" href="">
-                        <span class="itemstooltip">場次管理</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">票種管理</span>
-                    </a>
-
-                </div>
-            </li>
-            <li th:if="${permissions.contains(4)}">
-                <a href="">
-                    <i class='bx bxs-movie'></i>
-                    <span class="nav-item">資訊管理</span>
-                </a>
-                <span class="tooltip">資訊管理</span>
-
-
-                <div class="side">
-                    <a class="items" href="">
-                        <span class="itemstooltip">電影資訊管理</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">討論區管理</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">最新消息管理</span>
-                    </a>
-
-
-                </div>
-            </li>
-            <li th:if="${permissions.contains(5)}">
-                <a href="">
-                    <i class='bx bx-calendar-alt'></i>
-                    <span class="nav-item">商城管理</span>
-                </a>
-                <span class="tooltip">商城管理</span>
-
-                <div class="side">
-                    <a class="items" href="http://localhost:8081/HelloWorldCinema/back_end/food/select_page.jsp">
-                        <span class="itemstooltip">餐飲管理</span>
-                    </a>
-                    <a class="items" href="/merch/listAllMerch">
-                        <span class="itemstooltip">周邊管理</span>
-                    </a>
-                    <a class="items" href="/merch/updateMerch">
-                        <span class="itemstooltip">新增周邊</span>
-                    </a>
-
-
-                </div>
-            </li>
-            <li th:if="${permissions.contains(6)}">
-                <a th:href="@{/rental/select}">
-                    <i class='bx bxs-shopping-bag'></i>
-                    <span class="nav-item">場地租借</span>
-                </a>
-                <span class="tooltip">場地租借</span>
-
-                <div class="side">
-                    <a class="items" th:href="@{/rental/get_RentalOrder_For_Review}">
-                        <span class="itemstooltip">租借單審核</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">歸還管理</span>
-                    </a>
-
-
-                </div>
-            </li>
-            <li th:if="${permissions.contains(7)}">
-                <a href="/emp/listAllEmp">
-                    <i class='bx bxs-file'></i>
-                    <span class="nav-item">員工管理</span>
-                </a>
-                <span class="tooltip" >員工管理</span>
-
-                <div class="side">
-                    <a class="items" href="/emp/select_page">
-                        <span class="itemstooltip">查詢員工</span>
-                    </a>
-                    <a class="items" href="/emp/addEmp">
-                        <span class="itemstooltip">新增員工基本資料</span>
-                    </a>
-                    <a class="items" href="">
-                        <span class="itemstooltip">員工權限管理</span>
-                    </a>
-
-
-
-                </div>
-            </li>
-            <li th:if="${permissions.contains(8)}">
-                <a href="">
-                    <i class='bx bx-user-circle'></i>
-                    <span class="nav-item">客服中心</span>
-                </a>
-                <span class="tooltip">客服中心</span>
-
-                <div class="side">
-                    <a class="items" href="">
-                        <span class="itemstooltip">客服即時通</span>
-                    </a>
-
-
-                </div>
-            </li>
-            <li>
-                <a th:href="@{emp/toLogin}">
-                    <i class="bx bx-log-out"></i>
-                    <span class="nav-item">Logout</span>
-                </a>
-                <span class="tooltip">Logout</span>
-            </li>
-        </ul>
     </div>
-</div>
-
-<div class="content">
-    <div th:replace="~{::content}"></div>
+    <div class="content col-8">
+        <div th:replace="~{::content}"></div>
+    </div>
 </div>
 <div th:include="websocket/client_chat"></div>
 </body>
 <script th:src="@{/back_end/management.js}"></script>
+<!-- 引入Bootstrap JS和依賴 -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden; /* 避免出現滾動條 */
+    }
     .content {
-        width: 80vw;
+        width: calc(100vw - 170px);
+        height: calc(100vh - 50px);
         background: white;
         border-radius: 10px;
-        margin: 100px 100px 100px 200px;
+        margin-left: 170px;
         padding: 50px;
-
+        position: relative; /* 必須設置以便後續的絕對定位生效 */
     }
 
+    .content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: inherit; /* 繼承背景色 */
+        filter: blur(15px); /* 設置虛化程度 */
+        z-index: -1; /* 保持在背後 */
+        margin: -10px; /* 控制虛化邊界的寬度 */
+    }
+
+    .items {
 
 
-    /*.items{*/
-
-
-
-    /*}*/
+    }
 </style>
 
 </html>
