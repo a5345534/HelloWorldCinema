@@ -156,7 +156,7 @@ public class RentalOrderController {
 	}
 
 	// ===========FrontEnd==============================
-	@GetMapping("f/RentalOrder_For_M")
+	@GetMapping("f/m/RentalOrder_For_M")
 	public String getRentalOrderByMem(Model model, HttpSession session) {
 		Mem mem = (Mem) session.getAttribute("loginSuccess");
 		List<RentalOrder> rentalOrders = rentalOrderSvc.getRentalOrderByMemId(mem.getMemId());
@@ -171,7 +171,7 @@ public class RentalOrderController {
 		}
 	}
 
-	@PostMapping("cancel")
+	@PostMapping("f/cancel")
 	public String cancelRentalOrder(@RequestParam Integer rentalId, Model model, HttpSession session) {
 		RentalOrder rentalOrder = rentalOrderSvc.getRentalOrderById(rentalId);
 		rentalOrder.setResult("取消訂單");
@@ -183,7 +183,7 @@ public class RentalOrderController {
 		
 		return "front_end/rental/listAllRentalOrderM";
 	}
-	@PostMapping("goToPayment")
+	@PostMapping("f/goToPayment")
 	public String goToPaymen(@RequestParam Integer rentalId, Model model, HttpSession session) {
 		RentalOrder rentalOrder = rentalOrderSvc.getRentalOrderById(rentalId);
 		rentalOrder.setPaymentStatus("已付");
@@ -197,7 +197,7 @@ public class RentalOrderController {
 	}
 //=======================================	
 
-	@GetMapping("f/addRentalOrder")
+	@GetMapping("f/m/addRentalOrder")
 	public String addRentalOrder(ModelMap model, HttpSession session) {
 		RentalOrder rentalOrder = new RentalOrder();
 
@@ -215,7 +215,7 @@ public class RentalOrderController {
 		return "front_end/rental/addRentalOrder";
 	}
 
-	@PostMapping("insert")
+	@PostMapping("f/insert")
 	public String insert(@Valid RentalOrder rentalOrder, BindingResult result, Model model, HttpSession session) {
 		if (result.hasErrors()) {
 			model.addAttribute("rentalOrder", rentalOrder);
@@ -234,12 +234,12 @@ public class RentalOrderController {
 	}
 
 	// ===============================================================
-	@GetMapping("/rentalOrderIndex")
+	@GetMapping("f/rentalOrderIndex")
 	public String rentalOrderIndex(Model model) {
 		return "front_end/rental/rental_index";
 	}
 	
-	@GetMapping("/listAllRentalOrderF")
+	@GetMapping("f/listAllRentalOrderF")
 	public String listAllRentalOrderF(HttpServletRequest req, Model model) {
 		Map<String, String[]> map = new HashMap<>(req.getParameterMap());
 
@@ -270,7 +270,7 @@ class RentalOrderControllerR {
 	@Autowired
 	RentalOrderService rentalOrderSvc;
 
-	@GetMapping("/getPriceAndDeposit")
+	@GetMapping("f/getPriceAndDeposit")
 	public Map<String, Integer> getPriceAndDeposit(@RequestParam String screenId) {
 		Map<String, Integer> priceAndDeposit = new HashMap<>();
 

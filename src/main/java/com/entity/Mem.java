@@ -83,25 +83,25 @@ public class Mem {
 	private String memStatus;
 	
 	
-	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<Booking> booking;
 	
 	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<RentalOrder> rentalOrder;
 	
-	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<MerchOrder> merchOrder;
 	
-	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<Message> message;
 	
-	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<MovieFav> movieFav;
 	
-	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<Review> review;
 	
-	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy ="mem",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<Report> report;
 	
 	public Mem() {

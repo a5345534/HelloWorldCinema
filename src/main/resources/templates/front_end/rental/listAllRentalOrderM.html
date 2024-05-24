@@ -45,7 +45,7 @@
                     <table id="table-1" border="1">
                         <h1>租借訂單資訊</h1>
                         <div class="field input-field">
-                            <a th:href="@{/mem/memIndexF}">回會員專區</a>
+                            <a th:href="@{/mem/f/m/memIndexF}">回會員專區</a>
                         </div>
  
                         <tr>
@@ -88,13 +88,13 @@
                           
                           
                             <td>
-                                <form method="post" th:action="@{/rental/goToPayment}" th:object="${rentalOrder}" >
+                                <form method="post" th:action="@{/rental/f/goToPayment}" th:object="${rentalOrder}" >
                                     <button type="submit" value="通知付款" th:disabled="${rentalOrder.result != '通過' or rentalOrder.paymentStatus == '已付'}">通知付款</button>
                                     <input type="hidden" name="rentalId" th:value="${rentalOrder.rentalId}">
                                 </form>
                             </td>
                             <td>
-                                <form method="post" th:action="@{/rental/cancel}" th:object="${rentalOrder}" >
+                                <form method="post" th:action="@{/rental/f/cancel}" th:object="${rentalOrder}" >
                                     <button type="submit" value="取消訂單" th:disabled="${rentalOrder.result == '取消訂單'}">取消訂單</button>
                                     <input type="hidden" name="rentalId" th:value="${rentalOrder.rentalId}">
                                 </form>

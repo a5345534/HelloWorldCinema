@@ -20,7 +20,7 @@ public class MemFilter implements HandlerInterceptor {
 		HttpSession session = request.getSession(false);
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
-		String loginPath = contextPath + "/mem/login";
+		String loginPath = contextPath + "/mem/f/login";
 		String signupPath = contextPath + "/mem/signup";
 
 		// Debug 信息
@@ -35,7 +35,7 @@ public class MemFilter implements HandlerInterceptor {
 			return true;
 		}
 
-	    if (requestURI.startsWith(contextPath + "/mem/f/") || requestURI.startsWith(contextPath + "/rental/f/")) {
+	    if (requestURI.startsWith(contextPath + "/mem/f/m/") || requestURI.startsWith(contextPath + "/rental/f/m/")) {
 	        
 	        if (session != null && session.getAttribute("loginSuccess") != null) {
 	            return true;

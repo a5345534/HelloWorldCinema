@@ -161,12 +161,12 @@ public class MemController {
 	}
 //========FrontEnd===========================================================================
 
-	@GetMapping("/login")
+	@GetMapping("f/login")
 	public String login(Model model) {
 		return "front_end/mem/mem_login";
 	}
 
-	@PostMapping("memLogin")
+	@PostMapping("f/memLogin")
 	public String loginMem(@RequestParam("memAcount") String memAcount, @RequestParam("memPassword") String memPassword,
 			Model model, HttpSession session) {
 
@@ -190,21 +190,21 @@ public class MemController {
 		}
 	}
 
-	@GetMapping("/logout")
+	@GetMapping("f/logout")
 	public String logout(Model model, HttpSession session) {
 		session.removeAttribute("loginSuccess");
 		return "front_end/mem/mem_login";
 	}
 
 	// =========================================================================================
-	@GetMapping("f/memUpdateF")
+	@GetMapping("f/m/memUpdateF")
 	public String updateMemF(Model model, HttpSession session) {
 		Mem mem = (Mem) session.getAttribute("loginSuccess");
 		model.addAttribute("mem", mem);
 		return "front_end/mem/updateMemF";
 	}
 
-	@PostMapping("f/updateF")
+	@PostMapping("f/m/updateF")
 	public String updateF(@Valid Mem mem, BindingResult result, Model model, HttpSession session) {
 		if (result.hasErrors()) {
 			model.addAttribute("errorMsgs", result.getAllErrors());
@@ -225,7 +225,7 @@ public class MemController {
 		return "front_end/mem/updateMemF";
 	}
 
-	@PostMapping("f/cancel")
+	@PostMapping("f/m/cancel")
 	public String cancelMem(@RequestParam Integer memId, Model model) {
 		Mem mem = memSvc.getMemById(memId);
 		mem.setMemStatus("已註銷");
@@ -236,7 +236,7 @@ public class MemController {
 	}
 
 	// ===================================
-	@GetMapping("f/memIndexF")
+	@GetMapping("f/m/memIndexF")
 	public String memIndexF(Model model, HttpSession session) {
 		Mem mem = (Mem) session.getAttribute("loginSuccess");
 		model.addAttribute("mem", mem);
@@ -244,7 +244,7 @@ public class MemController {
 	}
 
 	// =============================================
-	@GetMapping("/signup")
+	@GetMapping("/f/signup")
 	public String signupMem(Model model) {
 		Mem mem = new Mem();
 		mem.setMemStatus("未驗證");
@@ -252,7 +252,7 @@ public class MemController {
 		return "front_end/mem/mem_signup";
 	}
 
-	@PostMapping("memSignUp")
+	@PostMapping("f/memSignUp")
 	public String signup(@Valid Mem mem, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
@@ -279,7 +279,7 @@ public class MemController {
 
 	private Jedis jedis = null;
 
-	@PostMapping("/sendVCode")
+	@PostMapping("f/sendVCode")
 	public String sendVerificationCode(@RequestParam("memEmail") String memEmail, Model model) {
 		String randomCode = RandomCode();
 		String subject = "會員註冊驗證";
@@ -300,7 +300,7 @@ public class MemController {
 		}
 	}
 
-	@PostMapping("/VerifyCode")
+	@PostMapping("f/VerifyCode")
 	public String registerMember(@RequestParam("memEmail") String memEmail, @RequestParam("inputCode") String inputCode,
 			Model model) {
 		String randomCode = jedis.get(memEmail);
@@ -323,13 +323,13 @@ public class MemController {
 		}
 	}
 
-	@GetMapping("/forgetPass")
+	@GetMapping("f/forgetPass")
 	public String forgetPass(Model model) {
 
 		return "front_end/mem/mem_forgetPass";
 	}
 
-	@PostMapping("/sendNewPass")
+	@PostMapping("f/sendNewPass")
 	public String forgotPassword(@RequestParam("memEmail") String memEmail, Model model) {
 
 		if (memSvc.getMemByEmail(memEmail) == null) {
@@ -406,14 +406,14 @@ class MemControllerR {
 	@Autowired
 	MemService memSvc;
 
-	@GetMapping("/checkAccount")
+	@GetMapping("f/checkAccount")
 	public Map<String, Boolean> checkAccount(@RequestParam("memAcount") String memAcount, Model model) {
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("exists", (memSvc.getMemByAccount(memAcount) != null));
 		return response;
 	}
 
-	@GetMapping("/checkEmail")
+	@GetMapping("f/checkEmail")
 	public Map<String, Boolean> checkEmail(@RequestParam("memEmail") String memEmail, Model model) {
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("exists", (memSvc.getMemByEmail(memEmail) != null));
