@@ -44,7 +44,7 @@
             <div class="form-content">
                 <h1>會員資訊管理</h1>
                 
-                <form method="post" th:action="@{f/updateF}"  th:object="${mem}" enctype="multipart/form-data">
+                <form method="post" th:action="@{f/m/updateF}"  th:object="${mem}" enctype="multipart/form-data">
                    <!-- 錯誤列表 -->
                    <div class="errorMsgs" th:if="${errorMsgs}">
                         <ul>
@@ -122,7 +122,7 @@
                 </form>
 
 
-                <form method="post" th:action="@{/mem/f/cancel}" th:object="${mem}" >
+                <form method="post" th:action="@{/mem/f/m/cancel}" th:object="${mem}" >
                     <button type="submit" value="註銷會員" >註銷會員</button>
                     <input type="hidden" name="memId" th:value="${mem.memId}">
                 </form>

@@ -36,7 +36,7 @@
 
         <section class="container forms">
             <div class="form login">
-                <form th:action="@{/rental/insert}" method="post" th:object="${rentalOrder}" enctype="multipart/form-data"  id="regForm">
+                <form th:action="@{/rental/f/insert}" method="post" th:object="${rentalOrder}" enctype="multipart/form-data"  id="regForm">
                     <h1>租借表單填寫</h1>
                     <div class="errorMsgs" th:if="${errorMsgs}">
                         <ul>

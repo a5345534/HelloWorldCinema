@@ -149,7 +149,7 @@ function checkUniqueAccount() {
     let account = document.getElementById("memAccount1").value;
     
     $.ajax({
-        url: "/checkAccount",
+        url: "/f/checkAccount",
         type: "GET",
         data: { memAcount: account },
         success: function(response) {
@@ -171,7 +171,7 @@ function checkUniqueEmail() {
     let email = document.getElementById("memEmail1").value;
 
     $.ajax({
-        url: "/checkEmail",
+        url: "/f/checkEmail",
         type: "GET",
         data: {memEmail: email},
         success: function(response) {

@@ -39,7 +39,7 @@
 
 
     <section class="container forms">
-        <form th:action="@{/mem/memSignUp}" method="post" th:object="${mem}" enctype="multipart/form-data"  id="regForm">
+        <form th:action="@{/mem/f/memSignUp}" method="post" th:object="${mem}" enctype="multipart/form-data"  id="regForm">
             <h1>會員註冊</h1>
             <div class="errorMsgs" th:if="${errorMsgs}">
                 <ul>
