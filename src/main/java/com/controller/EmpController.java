@@ -46,7 +46,11 @@ public class EmpController {
     public String login(@RequestParam(name = "username") Integer empId, @RequestParam(name = "password") String empPassword, Model model, HttpServletResponse response) throws IOException {
         Emp loginedEmp = empService.login(empId, empPassword);
         if (!ObjectUtils.isEmpty(loginedEmp)) {
-            String funIdsString = permissionService.getPermissionsByJobId(loginedEmp.getJob().getJobId());
+            List<Integer> funIds = permissionService.getFuncIdByJobId(loginedEmp.getJob().getJobId());
+            ObjectMapper mapper = new ObjectMapper();
+            String funcIdsString = mapper.writeValueAsString(funIds);
+            String funIdsString = Base64.getEncoder().encodeToString(funcIdsString.getBytes());
+
             Cookie loginInfo = new Cookie("loginAlready", funIdsString);
             loginInfo.setPath("/");
             response.addCookie(loginInfo);

@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.config","com.filter","com.service","templates","com.controller","com.util","com.dao"})
+@ComponentScan(basePackages = {"com.config","com.filter","com.service","templates","com.controller","com.util","com.dao","com.websocket"})
 public class HelloWorldCinemaApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

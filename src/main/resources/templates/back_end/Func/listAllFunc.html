@@ -1,59 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="back_end/management.html">
 <head>
     <title>世界影城</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link th:href="@{https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css}" rel='stylesheet'>
-    <link rel="stylesheet" type="text/css"  th:href="@{/back_end/management/css/management.css}" href="../../../static/back_end/management/css/management.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link rel="stylesheet" type="text/css" th:href="@{/back_end/func/}" >
-
 
 </head>
-
-
-
-
 <body>
-<aside th:replace="~{/back_end/management :: content}"></aside>
-
-<main>
-
-    <div class="container">
-        <table id="table-1" border="1">
-            <h1>員工權限</h1>
-            <!-- <h4><label th:text="${success}"></label></h4> -->
-
-            <tr>
-                <th>項次</th>
-                <th>職稱編號</th>
-                <th></th>
-                <th></th>
-                <th>修改</th>
+<div th:fragment="content">
+    <form action="/func" method="post" th:object="${funcPermsVoList}">
+        <table class="table align-middle">
+            <tr class="table-light">
+                <th>職位</th>
+                <th th:each="func : ${funcPermsVoList.list[0].funcs}" th:text="${func.func}">權限</th>
             </tr>
-
-            <tr th:each="func : ${listAllFunc}">
-                <td th:text="${funcStat.count}"></td>
-                <td th:text="${func.funcId}"></td>
-                <td th:text="${func.memAcount}"></td>
-                <td th:text="${func.memAcount}"></td>
-
-                <td>
-                    <form method="post" th:action="@{/func/listAllFunc}" th:object="${func}">
-                        <button type="submit" value="修改">修改</button>
-                        <input type="hidden" name="funcId" th:value="${func.funcId}">
-                    </form>
+            <tr th:each="funcPerms, funcIndex : ${funcPermsVoList.list}">
+                <td th:text="${funcPerms.jobVo.title}"></td>
+                <input type="hidden" th:field="*{list[__${funcIndex.index}__].jobVo.jobId}"/>
+                <input type="hidden" th:field="*{list[__${funcIndex.index}__].jobVo.title}"/>
+                <td th:each="func, idx : ${funcPerms.funcs}">
+                    <div>
+                        <input type="checkbox"
+                               th:id="'func_' + ${func.funcId}"
+                               th:name="list[__${funcIndex.index}__].funcs[__${idx.index}__].checked"
+                               th:field="*{list[__${funcIndex.index}__].funcs[__${idx.index}__].checked}"
+                               th:checked="${func.checked}"/>
+                    </div>
+                    <input type="hidden"
+                           th:field="*{list[__${funcIndex.index}__].funcs[__${idx.index}__].funcId}"/>
+                    <input type="hidden"
+                           th:field="*{list[__${funcIndex.index}__].funcs[__${idx.index}__].func}"/>
                 </td>
             </tr>
         </table>
-    </div>
-</main>
-<script th:src="@{/back_end/management/js/management.js}" src="../../../static/back_end/management/js/management.js"></script>
-
-
+        <button class="btn btn-primary" type="submit">提交</button>
+    </form>
+</div>
 </body>
 </html>

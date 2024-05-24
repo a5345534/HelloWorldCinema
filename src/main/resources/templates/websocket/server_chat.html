@@ -1,99 +1,271 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="back_end/management.html">
 <head>
     <meta charset="UTF-8">
     <title>服務客戶</title>
     <style>
-        /* 調整 WebSocket Sessions 區塊和 Chat 區塊的排版 */
-        .container {
+        .media {
+            padding: 16px 12px;
+            -webkit-transition: background-color .2s linear;
+            transition: background-color .2s linear;
+        }
+
+        .media-meta-day {
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            align-items: center;
+            margin-bottom: 0;
+            color: #8b95a5;
+            opacity: .8;
+            font-weight: 400;
+        }
+
+        .media {
+            padding: 16px 12px;
+            -webkit-transition: background-color .2s linear;
+            transition: background-color .2s linear;
+        }
+
+        .media-meta-day::before {
+            margin-right: 16px;
+        }
+
+        .media-meta-day::before, .media-meta-day::after {
+            content: '';
+            -webkit-box-flex: 1;
+            flex: 1 1;
+            border-top: 1px solid #ebebeb;
+        }
+
+        .media-meta-day::after {
+            content: '';
+            -webkit-box-flex: 1;
+            flex: 1 1;
+            border-top: 1px solid #ebebeb;
+        }
+
+        .media-meta-day::after {
+            margin-left: 16px;
+        }
+
+        body {
+            margin-top: 20px;
+        }
+
+        .chat-online {
+            color: #34ce57
+        }
+
+        .chat-offline {
+            color: #e4606d
+        }
+
+        .chat-messages {
             display: flex;
+            flex-direction: column;
+            max-height: 500px;
+            overflow-y: scroll
         }
 
-        .sessions {
-            flex: 1;
-            padding-right: 20px;
+        .chat-message-left,
+        .chat-message-right,
+        .chat-message-center {
+            display: flex;
+            flex-shrink: 0
         }
 
-        .chat {
-            flex: 1;
-            padding-left: 20px;
+        .chat-message-left {
+            margin-right: auto
         }
 
-        #messages {
-            max-height: 80vh; /* 設定最大高度 */
-            overflow-y: auto; /* 啟用垂直滾動條 */
-            /* 可選：設定其他樣式 */
+        .chat-message-right {
+            flex-direction: row-reverse;
+            margin-left: auto
         }
+
+        .chat-message-center {
+            display: flex;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80%; /* 限制最大寬度，可以根據需要調整 */
+        }
+
+        .py-3 {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        .px-4 {
+            padding-right: 1.5rem !important;
+            padding-left: 1.5rem !important;
+        }
+
+        .flex-grow-0 {
+            flex-grow: 0 !important;
+        }
+
+        .border-top {
+            border-top: 1px solid #dee2e6 !important;
+        }
+
     </style>
 </head>
 <body>
+<div th:fragment="content">
 
-<div class="container">
-    <div class="sessions">
-        <h1>服務客戶</h1>
-        <table border="1">
-            <tr>
-                <th>Session ID</th>
-                <th>Action</th>
-            </tr>
-            <tr th:each="ses : ${sessions}">
-                <td th:text="${ses.key}"></td>
-                <td>
-                    <button th:attr="data-session-key=${ses.key}" onclick="joinSession(this)">Join Chat</button>
-                </td>
-            </tr>
-        </table>
+    <div class="container p-0">
+        <h1 class="h3 mb-3">Messages</h1>
+        <div class="row g-0">
+            <div class="col-4 border-right">
+
+                <div class="px-4 d-none d-md-block">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <input type="text" class="form-control my-3" placeholder="Search...">
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="list-group-item list-group-item-action border-0" th:each="ses : ${sessions}"
+                   th:attr="data-session-key=${ses.key}" onclick="joinSession(this)">
+                    <div class="badge bg-success float-right">x</div>
+                    <div class="d-flex align-items-start">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar5.png" class="rounded-circle mr-1"
+                             alt="Vanessa Tucker" width="40" height="40">
+                        <div class="flex-grow-1 ml-3">
+                            Customer
+                            <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                        </div>
+                    </div>
+                </a>
+                <hr class="d-block d-lg-none mt-1 mb-0">
+            </div>
+            <div class="col-8">
+                <div class="position-relative">
+                    <div class="chat-messages p-4" id="server-messages">
+                    </div>
+                </div>
+
+                <div class="flex-grow-0 py-3 px-4 border-top">
+                    <div class="input-group">
+                        <input id="server-messageInput" type="text" class="form-control"
+                               placeholder="Type your message">
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <div class="chat">
-        <h1>聊天內容</h1>
-        <div id="messages"></div>
-        <span id="sessionId"></span>
-        <input type="text" id="messageInput" placeholder="Type a message...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-</div>
+    <script>
+        let webSocket;
+        let sessionId = null;
 
-<script>
-    let webSocket;
-    let sessionId = null;
 
-    function joinSession(button) {
-        sessionId = button.getAttribute('data-session-key');
-        // document.getElementById('sessionId').innerText = sessionId;
-        if (webSocket) {
-            webSocket.close();
+        function getStyle(name) {
+            switch (name) {
+                case 'customer':
+                    return 'chat-message-right'
+                case 'service':
+                    return 'chat-message-left'
+                case 'system':
+                    return 'chat-message-center'
+            }
         }
-        webSocket = new WebSocket(`ws://localhost:8080/websocket/${sessionId}/service`);
 
-        webSocket.onmessage = function (event) {
-            let chatHistory = document.getElementById('messages');
-            let message = document.createElement('p');
-            message.textContent = event.data;
-            chatHistory.appendChild(message);
+        function createChatMessageDiv(messageStyle, name, message) {
+            let outerDiv = document.createElement('div');
+            outerDiv.className = 'pb-4 ' + messageStyle;
+
+            // 創建內層的消息div
+            let messageDiv = document.createElement('div');
+            messageDiv.className = 'flex-shrink-1 bg-light rounded py-2 px-3 mr-3';
+
+            // 創建顯示用戶名的div
+            let userDiv = document.createElement('div');
+            userDiv.className = 'font-weight-bold mb-1';
+            userDiv.textContent = name; // 假設是從用戶自己發出的消息
+
+            // 創建顯示消息的文本節點
+            let messageText = document.createTextNode(message);
+
+            // 組合各個部分
+            messageDiv.appendChild(userDiv);
+            messageDiv.appendChild(messageText);
+            outerDiv.appendChild(messageDiv);
+            return outerDiv;
+        }
+
+        function createSystemMessageDiv(message) {
+            let outerDiv = document.createElement('div');
+            outerDiv.className = 'media media-meta-day';
+            outerDiv.innerText = message;
+            return outerDiv;
+        }
+
+        function serverReceivedMessage(event) {
+            let name;
+            let message;
+            let messageStyle;
+            if (event.data) {
+                let stringArr = event.data.split(':');
+                name = stringArr[0];
+                message = stringArr[1];
+                messageStyle = getStyle(name);
+            }
+
+            let chatHistory = document.getElementById('server-messages');
+            let outerDiv;
+            // 創建外層的div
+            if (name !== 'system') outerDiv = createChatMessageDiv(messageStyle, name, message);
+            else outerDiv = createSystemMessageDiv(message);
+            chatHistory.appendChild(outerDiv);
+
+            // 自動滾動到底部
             chatHistory.scrollTop = chatHistory.scrollHeight;
-        };
-
-        webSocket.onopen = function () {
-            console.log('Connected to session: ' + sessionId);
-            let chatHistory = document.getElementById('messages');
-            chatHistory.innerHTML = ''; // 清空 messages 區塊
-        };
-
-        webSocket.onclose = function () {
-            console.log('Disconnected from session: ' + sessionId);
-        };
-    }
-
-    function sendMessage() {
-        let messageInput = document.getElementById('messageInput');
-        let message = messageInput.value;
-        if (message && webSocket && webSocket.readyState === WebSocket.OPEN) {
-            webSocket.send(message);
-            messageInput.value = '';
         }
-    }
-</script>
+
+        function joinSession(button) {
+            sessionId = button.getAttribute('data-session-key');
+            // document.getElementById('sessionId').innerText = sessionId;
+            if (webSocket) {
+                webSocket.close();
+            }
+            webSocket = new WebSocket(`ws://localhost:8080/websocket/${sessionId}/service`);
+
+            webSocket.onmessage = function (event) {
+                serverReceivedMessage(event);
+            };
+
+            webSocket.onopen = function () {
+                console.log('Connected to session: ' + sessionId);
+                let chatHistory = document.getElementById('server-messages');
+                chatHistory.innerHTML = ''; // 清空 messages 區塊
+            };
+
+            webSocket.onclose = function () {
+                console.log('Disconnected from session: ' + sessionId);
+            };
+        }
+
+        document.getElementById('server-messageInput').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                serverSendMessage(this.value);
+            }
+        });
+
+        function serverSendMessage() {
+            let messageInput = document.getElementById('server-messageInput');
+            let message = messageInput.value;
+            if (message && webSocket && webSocket.readyState === WebSocket.OPEN) {
+                webSocket.send(message);
+                messageInput.value = '';
+            }
+        }
+    </script>
+</div>
 
 </body>
 </html>

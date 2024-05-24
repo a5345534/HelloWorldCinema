@@ -42,13 +42,11 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         loadAndSendChatHistory(webSocketSession, JSESSIONID);
         if (!sessionExists) {
             // 若不存在，創建新的記錄並存儲session信息
-            String message = "Welcome to the WebSocket server!";
-            notifyAllSessions(JSESSIONID, new TextMessage(message));
-//            redisTemplate.opsForList().rightPush("chat_history:" + JSESSIONID, message); // 初始化聊天記錄
+            String message = "system:" + "Welcome to the WebSocket server!";
+            notifyAllSessions(JSESSIONID, new TextMessage(message));//
         } else {
-            String message = user.username + " is come";
+            String message = "system:" + user.username + " is come";
             notifyAllSessions(JSESSIONID, new TextMessage(message));
-//            redisTemplate.opsForList().rightPush("chat_history:" + JSESSIONID, message);
         }
 
     }
@@ -89,15 +87,10 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         System.out.println("Disconnected: " + JSESSIONID);
 
         UserDto userDto = sessionMap.get(webSocketSession.getId());
-        String message = userDto.username + " is leaved";
+        String message = "system:" + userDto.username + " is leaved";
         notifyAllSessions(JSESSIONID, new TextMessage(message));
-//        redisTemplate.opsForList().rightPush("chat_history:" + JSESSIONID, message);
     }
 
-    //    private static String getJSESSIONID(WebSocketSession webSocketSession) {
-//        HttpSession httpSession = (HttpSession) webSocketSession.getAttributes().get("httpSession");
-//        return httpSession.getId();
-//    }
     private void notifyAllSessions(String JSESSIONID, TextMessage message) throws Exception {
         Map<Object, Object> entries = redisTemplate.opsForHash().entries("connections:" + JSESSIONID);
 
@@ -110,5 +103,32 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
                 }
             }
         }
+    }
+
+    public void closeChatRoom(String JSESSIONID) throws Exception {
+        //通知所有在聊天室內人的即將關閉聊天室
+        String message = "system:聊天室已關閉";
+        notifyAllSessions(JSESSIONID, new TextMessage(message));
+
+        //關閉所有在此聊天室內的websocket
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries("connections:" + JSESSIONID);
+
+        for (Object webSocketSessionId : entries.keySet()) {
+            String key = (String) webSocketSessionId;
+            UserDto userDto = sessionMap.get(key);
+            if (userDto != null && userDto.webSocketSession.isOpen()) {
+                try {
+                    userDto.webSocketSession.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            sessionMap.remove(key);
+        }
+        //刪除redis紀錄
+        redisTemplate.delete("connections:" + JSESSIONID);
+        redisTemplate.delete("chat_history:" + JSESSIONID);
+
+
     }
 }

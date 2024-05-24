@@ -14,10 +14,10 @@
             bottom: 20px;
             right: 20px;
             width: 300px;
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /*background-color: white;*/
+            /*border: 1px solid #ccc;*/
+            /*padding: 10px;*/
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
         }
 
         .floating-button {
@@ -34,28 +34,234 @@
             cursor: pointer;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        #messages {
+
+        #customer-messages {
             max-height: 50vh; /* 設定最大高度 */
             overflow-y: auto; /* 啟用垂直滾動條 */
             /* 可選：設定其他樣式 */
         }
+
+        .card {
+            width: 300px;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .adiv {
+            background: #04CB28;
+            border-radius: 15px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            height: 46px;
+        }
+
+        .chat {
+            border: none;
+            background: #E2FFE8;
+            font-size: 15px;
+            border-radius: 20px;
+        }
+
+        .bg-white {
+            border: 1px solid #E7E7E9;
+            font-size: 10px;
+            border-radius: 20px;
+        }
+
+        .myvideo img {
+            border-radius: 20px
+        }
+
+        .dot {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            border: 1px solid #F0F0F0;
+            font-size: 12px;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+        }
+
+        .form-control::placeholder {
+            font-size: 12px;
+            color: #C4C4C4;
+        }
+
+        .media {
+            padding: 16px 12px;
+            -webkit-transition: background-color .2s linear;
+            transition: background-color .2s linear;
+        }
+
+        .media-meta-day {
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            align-items: center;
+            margin-bottom: 0;
+            color: #8b95a5;
+            opacity: .8;
+            font-weight: 400;
+        }
+
+        .media {
+            padding: 16px 12px;
+            -webkit-transition: background-color .2s linear;
+            transition: background-color .2s linear;
+        }
+
+        .media-meta-day::before {
+            margin-right: 16px;
+        }
+
+        .media-meta-day::before, .media-meta-day::after {
+            content: '';
+            -webkit-box-flex: 1;
+            flex: 1 1;
+            border-top: 1px solid #ebebeb;
+        }
+
+        .media-meta-day::after {
+            content: '';
+            -webkit-box-flex: 1;
+            flex: 1 1;
+            border-top: 1px solid #ebebeb;
+        }
+
+        .media-meta-day::after {
+            margin-left: 16px;
+        }
+
+        body {
+            margin-top: 20px;
+        }
+
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            max-height: 500px;
+            overflow-y: scroll
+        }
+
+        .chat-message-left,
+        .chat-message-right,
+        .chat-message-center {
+            display: flex;
+            flex-shrink: 0
+        }
+
+        .chat-message-left {
+            margin-right: auto
+        }
+
+        .chat-message-right {
+            flex-direction: row-reverse;
+            margin-left: auto
+        }
+
+        .chat-message-center {
+            display: flex;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80%; /* 限制最大寬度，可以根據需要調整 */
+        }
+
+        .py-3 {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        .px-4 {
+            padding-right: 1.5rem !important;
+            padding-left: 1.5rem !important;
+        }
+
+        .flex-grow-0 {
+            flex-grow: 0 !important;
+        }
+
+        .border-top {
+            border-top: 1px solid #dee2e6 !important;
+        }
+
     </style>
 </head>
 
 <body>
 <!-- The chat container -->
 <div class="chat-container" id="chatContainer">
-    <h1>聯絡客服</h1>
-    <div id="messages"></div>
-    <div>
-        <input type="text" id="messageInput" placeholder="Enter message">
-        <button onclick="sendMessage()">Send</button>
+
+    <div class="card container p-0">
+        <div class="card-header text-center h3 mb-3 d-flex justify-content-between">
+            <span>聯絡客服</span>
+            <button type="button" class="btn btn-outline-dark btn-sm" onclick="closeChat()">
+                close
+            </button>
+        </div>
+        <div>
+            <div class="position-relative">
+                <div class="chat-messages p-4" id="customer-messages">
+                </div>
+            </div>
+            <div class="flex-grow-0 py-3 px-4 border-top">
+                <div class="input-group">
+                    <input id="customer-messageInput" type="text" class="form-control"
+                           placeholder="Type your message">
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- JavaScript code for WebSocket functionality -->
     <script>
         let ws;
         let chatContainer = document.getElementById('chatContainer');
+
+        function getStyle(name) {
+            switch (name) {
+                case 'customer':
+                    return 'chat-message-right'
+                case 'service':
+                    return 'chat-message-left'
+                case 'system':
+                    return 'chat-message-center'
+            }
+        }
+
+        function createChatMessageDiv(messageStyle, name, message) {
+            let outerDiv = document.createElement('div');
+            outerDiv.className = 'pb-4 ' + messageStyle;
+
+            // 創建內層的消息div
+            let messageDiv = document.createElement('div');
+            messageDiv.className = 'flex-shrink-1 bg-light rounded py-2 px-3 mr-3';
+
+            // 創建顯示用戶名的div
+            let userDiv = document.createElement('div');
+            userDiv.className = 'font-weight-bold mb-1';
+            userDiv.textContent = name; // 假設是從用戶自己發出的消息
+
+            // 創建顯示消息的文本節點
+            let messageText = document.createTextNode(message);
+
+            // 組合各個部分
+            messageDiv.appendChild(userDiv);
+            messageDiv.appendChild(messageText);
+            outerDiv.appendChild(messageDiv);
+            return outerDiv;
+        }
+
+        function createSystemMessageDiv(message) {
+            let outerDiv = document.createElement('div');
+            outerDiv.className = 'media media-meta-day';
+            outerDiv.innerText = message;
+            return outerDiv;
+        }
 
         function toggleChat() {
             if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
@@ -75,12 +281,12 @@
 
                 ws.onopen = function () {
                     console.log('Connected to the server');
-                    const messagesDiv = document.getElementById('messages');
+                    const messagesDiv = document.getElementById('customer-messages');
                     messagesDiv.innerHTML = ''; // 清空 messages 區塊
                 };
 
                 ws.onmessage = function (event) {
-                    appendMessage(event.data);
+                    customerReceivedMessage(event);
                 };
 
                 ws.onclose = function () {
@@ -96,21 +302,35 @@
         }
 
         function sendMessage() {
-            const message = document.getElementById('messageInput').value;
+            const message = document.getElementById('customer-messageInput').value;
             if (ws && ws.readyState === WebSocket.OPEN) {
                 ws.send(message);
-                document.getElementById('messageInput').value = ''; // Clear input field after sending
+                document.getElementById('customer-messageInput').value = ''; // Clear input field after sending
             } else {
                 console.error('WebSocket is not open. Unable to send message');
             }
         }
 
-        function appendMessage(message) {
-            const messagesDiv = document.getElementById('messages');
-            const newMessage = document.createElement('p');
-            newMessage.textContent = message;
-            messagesDiv.append(newMessage);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto scroll to the bottom
+        function customerReceivedMessage(event) {
+            let name;
+            let message;
+            let messageStyle;
+            if (event.data) {
+                let stringArr = event.data.split(':');
+                name = stringArr[0];
+                message = stringArr[1];
+                messageStyle = getStyle(name);
+            }
+
+            let chatHistory = document.getElementById('customer-messages');
+            let outerDiv;
+            // 創建外層的div
+            if (name !== 'system') outerDiv = createChatMessageDiv(messageStyle, name, message);
+            else outerDiv = createSystemMessageDiv(message);
+            chatHistory.appendChild(outerDiv);
+
+            // 自動滾動到底部
+            chatHistory.scrollTop = chatHistory.scrollHeight;
         }
 
         window.addEventListener('beforeunload', () => {
@@ -119,6 +339,25 @@
             }
         });
 
+        document.getElementById('customer-messageInput').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                sendMessage(this.value); // 替換為你需要調用的方法
+                this.value = ''; // 清空輸入框
+            }
+        });
+        function closeChat(){
+            const sessionId = "customer"; // 替換為實際的會話ID
+            fetch(`/websocket/close/${sessionId}`, {
+                method: 'GET',
+            })
+                .then(response => {
+                        console.log("Chat room closed successfully");
+                        document.getElementById('chatContainer').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
     </script>
 </div>
 <!-- The floating button to toggle the chat container -->
