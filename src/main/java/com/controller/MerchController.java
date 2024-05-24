@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,17 +25,22 @@ public class MerchController {
     public String showProductPage(@PathVariable Integer id, Model model) {
         Merch merch = merchService.getbyMerchId(id);
         model.addAttribute("merch", merch);
-        return "front_end/TestSingleMerch"; // 返回單獨商品頁面的HTML文件名
+        return "front_end/merchStore/TestSingleMerch"; // 返回單獨商品頁面的HTML文件名
     }
 
     @GetMapping("/front")
-    public String front() {
-        return "front_end/TestMerchStore";
+        public String front() {
+        return "front_end/merchStore/TestMerchStore";
     }
+
+
+//    public String front() {
+//        return "front_end/merchStore/TestMerchStore";
+//    }
 
     @GetMapping("/frontsingle")
     public String frontsingle() {
-        return "front_end/TestSingleMerch";
+        return "front_end/merchStore/TestSingleMerch";
     }
 
     @PostMapping("/toggleMerchStatus")
@@ -56,16 +62,33 @@ public class MerchController {
 
         Merch merch = new Merch();
         model.addAttribute(merch);
-        return "addMerch";
+        return "back_end/merchStore/addMerch";
     }
+
+//    @PostMapping("/saveMerch")
+//    public String saveMerch(@RequestParam("merchId")Integer merchId,@RequestParam("merchImg") MultipartFile merchImg,Model model){
+//
+//        Merch merch = new Merch();
+//        model.addAttribute(merch);
+//
+//        if(!merchImg.isEmpty()){
+//            byte[] imageBytes = merchId.getBytes();
+//            merchId.setmerchImg(imageBytes); // 將圖片轉換為 byte[] 並存儲
+//        }
+//
+//    }
+
+
 
     @PostMapping("/insertMerch")
     public String insert(@Valid Merch merch, Model model) {
+
+
         merchService.addMerch(merch);
         List<Merch> list = merchService.getAll();
         model.addAttribute("merchListDate", list);
         model.addAttribute("success", "修改成功");
-        return "back_end/listAllMerch";
+        return "back_end/merchStore/listAllMerch";
 
     }
 
@@ -73,7 +96,7 @@ public class MerchController {
     public String getbyMerchId(@RequestParam("merchId") Integer merchId, Model model) {
         Merch merch = merchService.getbyMerchId(merchId);
         model.addAttribute("Merch", merch);
-        return "front_end/TestSingleMerch";
+        return "front_end/merchStore/TestSingleMerch";
 
     }
 
@@ -83,7 +106,7 @@ public class MerchController {
         merchService.updateMerch(merch);
         model.addAttribute("success", "修改成功");
         merch = merchService.getbyMerchId(Integer.valueOf(merch.getMerchId()));
-        return "getbyMerchId";
+        return "back_end/merchStore/getbyMerchId";
 
     }
 
@@ -93,7 +116,7 @@ public class MerchController {
         List<Merch> list = merchService.getAll();
         model.addAttribute("merchListDate", list);
         model.addAttribute("success", "刪除成功");
-        return "back_end/listAllMerch";
+        return "back_end/merchStore/listAllMerch";
 
 
     }
@@ -102,7 +125,7 @@ public class MerchController {
     public String listAllMerch(Model model) {
         List<Merch> merchList = merchService.getAll();
         model.addAttribute("merchListData", merchList);
-        return "back_end/listAllMerch";
+        return "back_end/merchStore/listAllMerch";
     }
 
     @ModelAttribute("merchListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
@@ -116,8 +139,16 @@ public class MerchController {
     public String MerchStatus(Model model){
         List<Merch> merchlist = merchService.getbyMerchStatus("上架");
         model.addAttribute("merchStatusList",merchlist);
-        return "front_end/TestMerchStore";
+        return "front_end/merchStore/TestMerchStore";
     }
+
+    @ModelAttribute("merchListStatus")
+    public List<Merch> listStatus(Model model){
+        List<Merch> list = merchService.getbyMerchStatus("上架");
+        return list;
+    }
+
+
 
 
 }

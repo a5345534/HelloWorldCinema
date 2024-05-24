@@ -11,4 +11,6 @@ public interface MerchRepository extends JpaRepository<Merch,Integer> {
 
     List<Merch> findByMerchStatus(String merchStatus);
 
+
+
 }

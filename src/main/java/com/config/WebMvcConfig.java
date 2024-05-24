@@ -1,5 +1,6 @@
 package com.config;
 
+import com.filter.CustomHandshakeInterceptor;
 import com.filter.EmpFilter;
 import com.filter.MemFilter;
 import com.filter.PermissionFilter;

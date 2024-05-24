@@ -45,6 +45,7 @@ public class MerchService {
 
     public List<Merch> getbyMerchStatus(String merchStatus){
         return merchRepository.findByMerchStatus(merchStatus);
+        
 
     }
 

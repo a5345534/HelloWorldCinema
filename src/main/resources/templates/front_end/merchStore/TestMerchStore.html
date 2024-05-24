@@ -90,7 +90,7 @@
 
                 </li>
                 <li class="nav__menu-item">
-                    <a href="TestMerchStore.html"><h4 class="neon2">周邊商城</h4></a>
+                    <a href="/merch/front"><h4 class="neon2">周邊商城</h4></a>
                     <ul class="nav__submenu">
                         <li class="nav__submenu-item">
                             <a href=""></a>
@@ -99,27 +99,41 @@
                     </ul>
                 </li>
                 <li class="nav__menu-item">
-                    <a href=""><h4 class="neon2">場地租借</h4></a>
+                    <a th:href="@{/rental/rentalOrderIndex}"><h4 class="neon2">場地租借</h4></a>
                     <ul class="nav__submenu">
                         <li class="nav__submenu-item">
-                            <a href="">場地租借須知</a>
+                            <a th:href="@{/rental/rentalOrderIndex}">場地租借須知</a>
                         </li>
                         <li class="nav__submenu-item">
-                            <a href="">可租借場地資訊</a>
+                            <a th:href="@{/rental/listAllRentalOrderF}">可租借場地資訊</a>
                         </li>
                         <li class="nav__submenu-item">
-                            <a href="">租借表單填寫</a>
+                            <a th:href="@{/rental/f/addRentalOrder}">租借表單填寫</a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav__menu-item">
-                    <a href=""><h4 class="neon2">Log In</h4></a>
+<!--                <li class="nav__menu-item">-->
+<!--                    <a href=""><h4 class="neon2">Log In</h4></a>-->
+<!--                    <ul class="nav__submenu">-->
+<!--                        <li class="nav__submenu-item">-->
+<!--                            <a href=""></a>-->
+<!--                        </li>-->
+
+<!--                    </ul>-->
+<!--                </li>-->
+                <li class="nav__menu-item" th:if="${session.loginSuccess != null}">
+                    <a href=""><h4 class="neon2" th:text="${#strings.substring(session.loginSuccess.memName, 0, 3)}" ></h4></a>
                     <ul class="nav__submenu">
                         <li class="nav__submenu-item">
-                            <a href=""></a>
+                            <a th:href="@{/mem/memIndexF}">會員專區</a>
                         </li>
-
+                        <li class="nav__submenu-item">
+                            <a th:href="@{/mem/logout}">Log Out</a>
+                        </li>
                     </ul>
+                </li>
+                <li class="nav__menu-item" th:unless="${session.loginSuccess != null}">
+                    <a th:href="@{/mem/login}"><h4 class="neon2" >Log In</h4></a>
                 </li>
             </ul>
         </nav>
@@ -141,7 +155,7 @@
     <div id="shop" class="horizontal-products" >
 
 
-        <div class="products" th:each="merch : ${merchListData}">
+        <div class="products" th:each="merch : ${merchListStatus}">
             <a th:href="@{/merch/merchId/{id}(id=${merch.merchId})}">
                 <img class="product-image" th:src="${merch.merchImg}">
             <p class="product-name"><span th:text="${merch.merchName}"></span></p>

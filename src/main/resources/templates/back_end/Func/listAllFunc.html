@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>世界影城</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href="@{https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css}" rel='stylesheet'>
+    <link rel="stylesheet" type="text/css"  th:href="@{/back_end/management/css/management.css}" href="../../../static/back_end/management/css/management.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/back_end/func/}" >
+
+
+</head>
+
+
+
+
+<body>
+<aside th:replace="~{/back_end/management :: content}"></aside>
+
+<main>
+
+    <div class="container">
+        <table id="table-1" border="1">
+            <h1>員工權限</h1>
+            <!-- <h4><label th:text="${success}"></label></h4> -->
+
+            <tr>
+                <th>項次</th>
+                <th>職稱編號</th>
+                <th></th>
+                <th></th>
+                <th>修改</th>
+            </tr>
+
+            <tr th:each="func : ${listAllFunc}">
+                <td th:text="${funcStat.count}"></td>
+                <td th:text="${func.funcId}"></td>
+                <td th:text="${func.memAcount}"></td>
+                <td th:text="${func.memAcount}"></td>
+
+                <td>
+                    <form method="post" th:action="@{/func/listAllFunc}" th:object="${func}">
+                        <button type="submit" value="修改">修改</button>
+                        <input type="hidden" name="funcId" th:value="${func.funcId}">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+<script th:src="@{/back_end/management/js/management.js}" src="../../../static/back_end/management/js/management.js"></script>
+
+
+</body>
+</html>
