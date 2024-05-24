@@ -221,7 +221,20 @@
         border-radius: 10px;
         margin-left: 170px;
         padding: 50px;
+        position: relative; /* 必須設置以便後續的絕對定位生效 */
+    }
 
+    .content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: inherit; /* 繼承背景色 */
+        filter: blur(15px); /* 設置虛化程度 */
+        z-index: -1; /* 保持在背後 */
+        margin: -10px; /* 控制虛化邊界的寬度 */
     }
 
     .items {
