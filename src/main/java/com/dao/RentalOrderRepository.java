@@ -15,6 +15,7 @@ import com.entity.RentalOrder;
 public interface RentalOrderRepository extends JpaRepository<RentalOrder, Integer> {
 	List<RentalOrder> findRentalOrderByResult(String result);
 	List<RentalOrder> findRentalOrderByMem(Mem mem);
+	List<RentalOrder> findRentalOrderByPaymentStatus(String paymentStatus);
 
   
 }

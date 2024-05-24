@@ -58,13 +58,12 @@
 
                 </form>
 
-                <form method="post" th:action="@{/mem/VerifyCode}" enctype="multipart/form-data">
+                <form method="post" th:action="@{/mem/VerifyCode}" enctype="multipart/form-data" class="form2">
                     
                     <div class="field input-field">
-                        <div class="field button-field">
-                            <input type="hidden" name="memEmail" th:value="${memEmail}">
-                            <input type="text" placeholder="輸入驗證碼" class="input" name="inputCode">
-                        </div>
+                        
+                        <input type="hidden" name="memEmail" th:value="${memEmail}">
+                        <input type="text" placeholder="輸入驗證碼" class="input" name="inputCode">
                     </div>
 
                     <div class="field button-field">
@@ -88,6 +87,35 @@
 <!-- 主要js -->
 <script th:src="@{/front_end/index/js/index.js}" src="../../../static/front_end/index/js/index.js"></script>
 
+<script>
+      window.onload = function() {
+        var inputs = document.querySelectorAll(".field.input-field input");
+        var form = document.querySelector(".form2");
+
+        form.addEventListener("submit", function(e) {
+            var isValid = true;
+            inputs.forEach(function(input) {
+                if (input.value.trim() === "") {
+                    input.classList.add("invalid");
+                    isValid = false;
+                } else {
+                    input.classList.remove("invalid");
+                }
+            });
+            if (!isValid) {
+                e.preventDefault();
+          
+            }
+        });
+
+        inputs.forEach(function(input) {
+            input.addEventListener("focus", function(e) {          
+                this.classList.remove('invalid');
+            });
+        });
+    };
+
+</script>
 <!-- ========================================================================== -->
  
 

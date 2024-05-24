@@ -50,6 +50,11 @@
                             <li th:each="error : ${errorMsgs}" th:text="${error}"></li>
                         </ul>
                     </div>
+                    <div class="errorMsgs"th:if="${param.message}">
+                        <ul>
+                            <li th:text="${param.message}"></li>
+                        </ul>
+                    </div>
                     
                     <div class="field input-field">
                         <input type="text" placeholder="帳號" class="input" name="memAcount">
