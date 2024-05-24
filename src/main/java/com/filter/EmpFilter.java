@@ -19,7 +19,7 @@ public class EmpFilter implements HandlerInterceptor {
 
 
 
-    String[] ignoreUrls = {"/emp/toLogin","/emp/doLogin","/emp/resetPasswordLink","/front_end/**","/websocket/**","/client_chat.html",, "/mem/**", "/rental/**",
+    String[] ignoreUrls = {"/emp/toLogin","/emp/doLogin","/emp/resetPasswordLink","/front_end/**","/websocket/**","/client_chat.html", "/mem/**", "/rental/**",
 
             "/**/*.js", "/**/*.css", "/**/*.jpg", "/**/*.jpeg", "/**/*.png", "/**/*.gif", "/**/*.svg","/**/*.ico"};
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
