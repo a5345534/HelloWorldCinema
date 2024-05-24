@@ -175,25 +175,64 @@
             }
         }
 
-        function createChatMessageDiv(messageStyle, name, message) {
+        function getMessageColorStyle(name) {
+            switch (name) {
+                case 'customer':
+                    return 'bg-success text-white bg-opacity-75 mr-3'
+                case 'service':
+                    return 'bg-info text-white bg-opacity-75 ml-3'
+            }
+        }
+        function getImageSrc(name) {
+            switch (name) {
+                case 'customer':
+                    return 'https://bootdey.com/img/Content/avatar/avatar3.png'
+                case 'service':
+                    return 'https://bootdey.com/img/Content/avatar/avatar1.png'
+            }
+        }
+
+        function createServerChatMessageDiv(messageStyle, name, message) {
             let outerDiv = document.createElement('div');
             outerDiv.className = 'pb-4 ' + messageStyle;
 
             // 創建內層的消息div
+            let messageColorStyle = getMessageColorStyle(name);
             let messageDiv = document.createElement('div');
-            messageDiv.className = 'flex-shrink-1 bg-light rounded py-2 px-3 mr-3';
+            messageDiv.className = 'flex-shrink-1 rounded py-2 px-3 mr-3 ' + messageColorStyle;
 
             // 創建顯示用戶名的div
             let userDiv = document.createElement('div');
             userDiv.className = 'font-weight-bold mb-1';
             userDiv.textContent = name; // 假設是從用戶自己發出的消息
 
+
+            // 創建頭像元素的外層 div
+            let imageElementDiv = document.createElement('div');
+
+            // 創建 img 元素
+            let img = document.createElement('img');
+            img.src = getImageSrc(name);
+            img.className = "rounded-circle mr-1";
+            img.width = 40;
+            img.height = 40;
+
+            // 創建顯示時間的 div
+            let timeDiv = document.createElement('div');
+            timeDiv.className = 'text-muted small text-nowrap mt-2';
+            timeDiv.textContent = '2:37 am';
+
             // 創建顯示消息的文本節點
             let messageText = document.createTextNode(message);
+
+            // 組合image元素
+            imageElementDiv.appendChild(img);
+            imageElementDiv.appendChild(timeDiv);
 
             // 組合各個部分
             messageDiv.appendChild(userDiv);
             messageDiv.appendChild(messageText);
+            outerDiv.appendChild(imageElementDiv);
             outerDiv.appendChild(messageDiv);
             return outerDiv;
         }
@@ -219,7 +258,7 @@
             let chatHistory = document.getElementById('server-messages');
             let outerDiv;
             // 創建外層的div
-            if (name !== 'system') outerDiv = createChatMessageDiv(messageStyle, name, message);
+            if (name !== 'system') outerDiv = createServerChatMessageDiv(messageStyle, name, message);
             else outerDiv = createSystemMessageDiv(message);
             chatHistory.appendChild(outerDiv);
 
