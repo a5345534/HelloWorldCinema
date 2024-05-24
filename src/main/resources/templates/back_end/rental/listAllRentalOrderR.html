@@ -80,7 +80,7 @@
                             </td>
                             <td>
                                 <input type="text" name="emp.empId"  maxlength="4" style="width: 50px;" class="empSelect" th:value="${rentalOrder.emp != null ? rentalOrder.emp?.empId : ''}" onchange="updateEmpValues()">
-                                <!-- th:value="${rentalOrder.emp != null ? rentalOrder.emp?.empId : ''}" -->
+                                
                             </td>
                             <td>
                                 <form method="post" th:action="@{/rental/update}" th:object="${rentalOrder}">
@@ -131,24 +131,31 @@
             }
 
 
-            // document.addEventListener('DOMContentLoaded', function() {
-            //     var empSelects = document.querySelectorAll('.empSelect');
-            //     var hiddenEmps = document.querySelectorAll('.hiddenEmp');
-            //     for (var i = 0; i < empSelects.length; i++) {
-            //         empSelects[i].addEventListener('input', function() {
-                        
-            //             hiddenEmps[i].value = this.value;
-            //             console.log(this.valuee);
-            //         });
-            //     }
-            //     console.log(hiddenEmps[0].value);
-            //     console.log(hiddenEmps[2].value);
-        
-            //     var resultSelects = document.querySelectorAll('.resultSelect');
-            //     for (var i = 0; i < resultSelects.length; i++) {
-            //         resultSelects[i].addEventListener('input', updateResultValues);
-            //     }
-            // });
+            var isValid;
+            function validateForm() {
+                updateEmpValues(); 
+                 isValid = true;
+                var empSelects = document.querySelectorAll('.empSelect');
+                for (var i = 0; i < empSelects.length; i++) {
+                    if (empSelects[i].value === '') {
+                        empSelects[i].classList.add('invalid');
+                        isValid = false;
+                    } else {
+                        empSelects[i].classList.remove("invalid");
+                    }
+                }
+            }
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    validateForm(form); 
+                    if (!isValid) {
+                    e.preventDefault();
+                }
+                });
+            });
+
+
+
         </script>
         
         

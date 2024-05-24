@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -64,8 +65,25 @@ public class MerchController {
         return "back_end/merchStore/addMerch";
     }
 
+//    @PostMapping("/saveMerch")
+//    public String saveMerch(@RequestParam("merchId")Integer merchId,@RequestParam("merchImg") MultipartFile merchImg,Model model){
+//
+//        Merch merch = new Merch();
+//        model.addAttribute(merch);
+//
+//        if(!merchImg.isEmpty()){
+//            byte[] imageBytes = merchId.getBytes();
+//            merchId.setmerchImg(imageBytes); // 將圖片轉換為 byte[] 並存儲
+//        }
+//
+//    }
+
+
+
     @PostMapping("/insertMerch")
     public String insert(@Valid Merch merch, Model model) {
+
+
         merchService.addMerch(merch);
         List<Merch> list = merchService.getAll();
         model.addAttribute("merchListDate", list);
