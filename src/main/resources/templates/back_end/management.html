@@ -120,10 +120,13 @@
 
                 <div class="side">
                     <a class="items" href="http://localhost:8081/HelloWorldCinema/back_end/food/select_page.jsp">
-                        <span class="itemstooltip">餐影管理</span>
+                        <span class="itemstooltip">餐飲管理</span>
                     </a>
                     <a class="items" href="/merch/listAllMerch">
                         <span class="itemstooltip">周邊管理</span>
+                    </a>
+                    <a class="items" href="/merch/updateMerch">
+                        <span class="itemstooltip">新增周邊</span>
                     </a>
 
 
@@ -166,6 +169,7 @@
                     </a>
 
 
+
                 </div>
             </li>
             <li th:if="${permissions.contains(8)}">
@@ -184,7 +188,7 @@
                 </div>
             </li>
             <li>
-                <a href="emp/toLogin">
+                <a th:href="@{emp/toLogin}">
                     <i class="bx bx-log-out"></i>
                     <span class="nav-item">Logout</span>
                 </a>
@@ -210,11 +214,13 @@
 
     }
 
-    .items{
+
+
+    /*.items{*/
 
 
 
-    }
+    /*}*/
 </style>
 
 </html>
