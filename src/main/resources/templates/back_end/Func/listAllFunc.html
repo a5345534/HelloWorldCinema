@@ -21,8 +21,8 @@
                 <input type="hidden" th:field="*{list[__${funcIndex.index}__].jobVo.jobId}"/>
                 <input type="hidden" th:field="*{list[__${funcIndex.index}__].jobVo.title}"/>
                 <td th:each="func, idx : ${funcPerms.funcs}">
-                    <div>
-                        <input type="checkbox"
+                    <div class="form-check form-switch">
+                        <input type="checkbox" class="form-check-input"
                                th:id="'func_' + ${func.funcId}"
                                th:name="list[__${funcIndex.index}__].funcs[__${idx.index}__].checked"
                                th:field="*{list[__${funcIndex.index}__].funcs[__${idx.index}__].checked}"
@@ -35,7 +35,7 @@
                 </td>
             </tr>
         </table>
-        <button class="btn btn-primary" type="submit">提交</button>
+        <button class="btn btn-dark" type="submit">提交</button>
     </form>
 </div>
 </body>
