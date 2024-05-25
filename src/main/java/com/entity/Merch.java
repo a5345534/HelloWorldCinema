@@ -27,10 +27,9 @@ public class Merch {
 	
 	@Column(name = "merch_name", nullable = false, length = 30)
 	private String merchName;
-	
-	@Lob
+
 	@Column(name = "merch_img", columnDefinition = "mediumblob")
-	private byte[] merchImg;
+	private String merchImg;
 	
 	@Column(name = "merch_info", length = 500)
 	private String merchInfo;
@@ -49,7 +48,7 @@ public class Merch {
 
 	
 
-	public Merch(Integer merchId, Set<MerchItem> merchItems, String merchName, byte[] merchImg, String merchInfo,
+	public Merch(Integer merchId, Set<MerchItem> merchItems, String merchName, String merchImg, String merchInfo,
 			Integer merchPrice, String merchStatus) {
 		super();
 		this.merchId = merchId;
@@ -99,13 +98,13 @@ public class Merch {
 
 
 
-	public byte[] getMerchImg() {
+	public String getMerchImg() {
 		return merchImg;
 	}
 
 
 
-	public void setMerchImg(byte[] merchImg) {
+	public void setMerchImg(String merchImg) {
 		this.merchImg = merchImg;
 	}
 

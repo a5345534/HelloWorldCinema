@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -129,9 +130,19 @@ public class MerchController {
     }
 
     @ModelAttribute("merchListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
-    protected List<Merch> referenceListData(Model model) {
+    protected List<Merch> referenceListData(Model model, HttpServletRequest request) {
+        String scheme = request.getScheme();             // http
+        String serverName = request.getServerName();     // localhost
+        int serverPort = request.getServerPort();        // 8080
+        String contextPath = request.getContextPath();   // /merch
+        String rootPath = scheme + "://" + serverName + ":" + serverPort;
+
 
         List<Merch> list = merchService.getAll();
+        list.forEach(item -> {
+            boolean b = item.getMerchImg().startsWith("\uFEFF");
+            item.setMerchImg(item.getMerchImg().substring(1));
+        });
         return list;
     }
 
