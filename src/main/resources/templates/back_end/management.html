@@ -8,13 +8,13 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" th:href="@{/back_end/management.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    !-- 引入Bootstrap CSS -->
+    <!-- 引入Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
 <div class="row">
-    <div class="sidebar-container col-4" id="sidebar-container">
+    <div class="sidebarContent col-4" >
         <div class="sidebar">
             <div class="top">
                 <div class="logo">
@@ -195,8 +195,10 @@
             </ul>
         </div>
     </div>
-    <div class="content col-8">
+    <div class="content mr-2 col-8 text-center">
+        <div class="inner-content">
         <div th:replace="~{::content}"></div>
+        </div>
     </div>
 </div>
 <div th:include="websocket/client_chat"></div>
@@ -205,7 +207,6 @@
 <!-- 引入Bootstrap JS和依賴 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     html, body {
         margin: 0;
@@ -219,7 +220,6 @@
         height: calc(100vh - 50px);
         background: white;
         border-radius: 10px;
-        margin-left: 170px;
         padding: 50px;
         position: relative; /* 必須設置以便後續的絕對定位生效 */
     }
@@ -235,6 +235,16 @@
         filter: blur(15px); /* 設置虛化程度 */
         z-index: -1; /* 保持在背後 */
         margin: -10px; /* 控制虛化邊界的寬度 */
+    }
+
+    .inner-content{
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .sidebarContent{
+        z-index: 1000;
     }
 
     .items {

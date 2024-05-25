@@ -39,8 +39,10 @@ public class EmpService {
     }
 
     public void deleteEmp(Integer empId) {
-        if (empRepository.existsById(empId))
-            empRepository.deleteById(empId);
+        if (empRepository.existsById(empId)){
+            Emp byEmpId = empRepository.findByEmpId(empId);
+            empRepository.delete(byEmpId);
+        }
     }
 
     public Emp getbyId(Integer empId) {

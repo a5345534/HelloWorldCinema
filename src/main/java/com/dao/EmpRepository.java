@@ -12,11 +12,14 @@ import javax.transaction.Transactional;
 @Repository
 @Component
 public interface EmpRepository extends JpaRepository<Emp,Integer> {
-    @Transactional
-    @Modifying
-    @Query(value = "delete from emp where emp_id =?", nativeQuery = true)
-    void deleteByEmpId(int empId);
+//    @Transactional
+//    @Modifying
+//    @Query(value = "delete from emp where emp_id =?", nativeQuery = true)
+//    void deleteByEmpId(int empId);
+
+
+    @Override
+    void delete(Emp entity);
 
     Emp findByEmpId(Integer empId);
-//    Optional<User> findByEmail(String empEmail);
 }

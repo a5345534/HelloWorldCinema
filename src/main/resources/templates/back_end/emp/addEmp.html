@@ -4,120 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>員工資料新增</title>
-
-<!--    <head th:insert="~{/included-fragment}"></head>-->
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/index.css}"/>
-    <link rel="stylesheet" th:href="@{/error.css}"/>
-
-    <style type="text/css">
-
-        button {
-            padding: 5px;
-        }
-        form {
-            display: table;
-        }
-        form div {
-            display: table-row;
-        }
-        label, input, span, select {
-            display: table-cell;
-            margin: 5px;
-            text-align: left;
-        }
-        input[type=text], input[type=password], select, textarea {
-            width: 200px;
-            margin: 5px;
-        }
-        form div div {
-            display: table-cell;
-        }
-        .center {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
 </head>
 <body>
 <div th:fragment="content">
-<nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-center">
-    <div align="center"> <h2>員工資料新增 - addEmp.html</h2>
-        <h3><a class="navbar-brand" th:href="@{select_page.html}">回查詢頁</a></h3></div>
-</nav>
-
-<div align="center">
-    <h3><b>所有欄位皆為必填欄位</b></h3>
-    <form th:action="@{insertEmp}" method="post" th:object="${emp}" enctype="multipart/form-data">
-
-
-
-
-
-
-        <div>
-            <label>員工姓名:</label>
-            <input type="text" th:field="*{empName}" onclick="hideContent('empName.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}" class="error" id="empName.errors"></span>
-        </div>
-
-<!--        <div>-->
-<!--            <label>職位:</label>-->
-<!--            <input type="text" th:field="*{job}" onclick="hideContent('job.errors');" /><br/>-->
-<!--            <span  th:if="${#fields.hasErrors('job')}" th:errors="*{job}" class="error" id="job.errors"></span>-->
-<!--        </div>-->
-
-        <div>
-            <label>雇用日期:</label>
-            <input type="date" th:field="*{hireDate}" onclick="hideContent('hireDate.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}" class="error" id="hireDate.errors"></span>
+    <div class="card w-100">
+        <div class="card-header text-center bold rounded-top">
+            <h1>員工資料新增</h1>
+            <!--            <h3><a class="navbar-brand" th:href="@{select_page.html}">回查詢頁</a></h3>-->
         </div>
 
         <div>
-            <label>密碼:</label>
-            <input type="text" th:field="*{empPassword}" onclick="hideContent('empPassword.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('empPassword')}" th:errors="*{empPassword}" class="error" id="empPassword.errors"></span>
+            <h4><b>所有欄位皆為必填欄位</b></h4>
+            <form th:action="@{insertEmp}" method="post" th:object="${emp}" enctype="multipart/form-data">
+                <div class="mb-1 row">
+                    <label for="empName" class="form-label col-4">員工姓名:</label>
+                    <input id="empName" class="form-control col-8" type="text" th:field="*{empName}"
+                           onclick="hideContent('empName.errors');"/><br/>
+                    <span th:if="${#fields.hasErrors('empName')}" th:errors="*{empName}" class="error"
+                          id="empName.errors"></span>
+                </div>
+                <div class="mb-1 row">
+                    <label for="hireDate" class="form-label col-4">雇用日期:</label>
+                    <input id="hireDate" class="form-control col-8" type="date" th:field="*{hireDate}"
+                           onclick="hideContent('hireDate.errors');"/><br/>
+                    <span th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}" class="error"
+                          id="hireDate.errors"></span>
+                </div>
+
+                <div class="mb-1 row">
+                    <label for="empPassword" class="form-label col-4">密碼:</label>
+                    <input id="empPassword" class="form-control col-8" type="text" th:field="*{empPassword}"
+                           onclick="hideContent('empPassword.errors');"/><br/>
+                    <span th:if="${#fields.hasErrors('empPassword')}" th:errors="*{empPassword}" class="error"
+                          id="empPassword.errors"></span>
+                </div>
+
+                <div class="mb-1 row">
+                    <label for="empEmail" class="form-label col-4">電子信箱:</label>
+                    <input id="empEmail" class="form-control col-8" type="text" th:field="*{empEmail}"
+                           onclick="hideContent('empEmail.errors');"/><br/>
+                    <span th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}" class="error"
+                          id="empEmail.errors"></span>
+                </div>
+
+                <div class="mb-1 row">
+                    <label for="empStatus" class="form-label col-4">狀態:</label>
+                    <input id="empStatus" class="form-control col-8" type="text" th:field="*{empStatus}"
+                           onclick="hideContent('empStatus.errors');"/><br/>
+                    <span th:if="${#fields.hasErrors('empStatus')}" th:errors="*{empStatus}" class="error"
+                          id="empStatus.errors"></span>
+                </div>
+
+                <div class="mb-1 row">
+                    <label class="form-label col-4">職務:</label>
+                    <select class="form-select col-8" th:field="*{job.jobId}">
+                        <option th:each="job : ${jobListData}" th:value="${job.jobId}" th:text="${job.title}"/>
+                    </select>
+                    <span th:if="${#fields.hasErrors('job.jobId')}" th:errors="*{job.jobId}" class="error"
+                          id="job.jobId.errors"></span>
+                </div>
+
+
+                <!--        <div>-->
+                <!--            <label>照片:</label>-->
+                <!--            <input type="file" th:field="*{upFiles}" onclick="previewImage()" multiple="multiple" onchange="hideContent('upFiles.errors');" />-->
+                <!--            &lt;!&ndash; 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> &ndash;&gt;-->
+                <!--            <span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span>-->
+                <!--            &lt;!&ndash; 			<h2 id="errorMessage">${errorMessage}</h2>  &ndash;&gt;-->
+                <!--            <div id="blob_holder"></div>-->
+                <!--        </div>-->
+
+                <div>
+                    <div></div>
+                    <div>
+                        <button class="btn btn-dark" type="submit" id="submit"> 送出新增</button>
+                    </div>
+                    <div></div>
+                </div>
+            </form>
         </div>
-
-        <div>
-            <label>電子信箱:</label>
-            <input type="text" th:field="*{empEmail}" onclick="hideContent('empEmail.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('empEmail')}" th:errors="*{empEmail}" class="error" id="empEmail.errors"></span>
-        </div>
-
-        <div>
-            <label>狀態:</label>
-            <input type="text" th:field="*{empStatus}" onclick="hideContent('empStatus.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('empStatus')}" th:errors="*{empStatus}" class="error" id="empStatus.errors"></span>
-        </div>
-
-        <div>
-            <label>職務:</label>
-            <select th:field="*{job.jobId}">
-                <option th:each="job : ${jobListData}" th:value="${job.jobId}" th:text="${job.title}" />
-            </select>
-            <span th:if="${#fields.hasErrors('job.jobId')}" th:errors="*{job.jobId}" class="error" id="job.jobId.errors"></span>
-        </div>
-
-
-
-<!--        <div>-->
-<!--            <label>照片:</label>-->
-<!--            <input type="file" th:field="*{upFiles}" onclick="previewImage()" multiple="multiple" onchange="hideContent('upFiles.errors');" />-->
-<!--            &lt;!&ndash; 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> &ndash;&gt;-->
-<!--            <span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span>-->
-<!--            &lt;!&ndash; 			<h2 id="errorMessage">${errorMessage}</h2>  &ndash;&gt;-->
-<!--            <div id="blob_holder"></div>-->
-<!--        </div>-->
-
-        <div>
-            <div></div>
-            <div><button type="submit" id="submit"> 送出新增 </button></div>
-            <div></div>
-        </div>
-    </form>
-
-</div>
+    </div>
 </div>
 
 <!-- JavaScript part -->

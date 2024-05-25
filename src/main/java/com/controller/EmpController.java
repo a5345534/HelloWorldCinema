@@ -69,8 +69,8 @@ public class EmpController {
 
         Emp emp = new Emp();
         Job job = new Job();
-        model.addAttribute("emp",emp);
-        model.addAttribute("job",job);
+        model.addAttribute("emp", emp);
+        model.addAttribute("job", job);
         return "back_end/emp/addEmp";
 
     }
@@ -80,8 +80,8 @@ public class EmpController {
 
         Emp emp = new Emp();
         Job job = new Job();
-        model.addAttribute("emp",emp);
-        model.addAttribute("job",job);
+        model.addAttribute("emp", emp);
+        model.addAttribute("job", job);
         return "back_end/emp/addEmp";
 
     }
@@ -107,38 +107,35 @@ public class EmpController {
     }
 
 
-    @GetMapping("/toupdateEmp")
-    public String updateEmp() {
+    @PostMapping("/toUpdateEmp")
+    public String updateEmp(@ModelAttribute("emp") Emp emp, Model model) {
+        emp = empService.getbyId(emp.getEmpId());
+        model.addAttribute("emp", emp);
         return "back_end/emp/updateEmp";
     }
+
     //ModelMap model
-    @PostMapping("updateEmp")
-    public String update(@Valid Emp emp)  {
-
-        emp = empService.getbyId(Integer.valueOf(emp.getEmpId()));
-        // EmpService empSvc = new EmpService();
+    @PostMapping("doUpdateEmp")
+    public String update(@ModelAttribute("emp") Emp emp, Model model) {
         empService.updateEmp(emp);
-//        model.addAttribute("success", "修改成功");
-
-//        model.addAttribute("empVO", empVO);
-        return  "back_end/emp/updateEmp"; // 修改成功後轉交listOneEmp.html
+        model.addAttribute("emp", emp);
+        return "back_end/emp/updateEmp"; // 修改成功後轉交listOneEmp.html
     }
 
 
     @PostMapping("/deleteEmp")
     public String deleteEmp(@RequestParam("empId") Integer empId, Model model) {
-        empService.deleteEmp(Integer.valueOf(empId));
-        List<Emp> list = empService.getAll();
-        model.addAttribute("empListData", list);
-        model.addAttribute("success", "刪除成功");
-        return "back_end/emp/listAllEmp";
+        empService.deleteEmp(empId);
+        return "redirect:/emp/listAllEmp";
     }
+
     @ModelAttribute("jobListData")
     protected List<Job> referenceListData() {
         // DeptService deptSvc = new DeptService();
         List<Job> list = jobService.getAll();
         return list;
     }
+
     @ModelAttribute("jobMapData") //
     protected Map<Integer, String> referenceMapData() {
         Map<Integer, String> map = new LinkedHashMap<Integer, String>();
@@ -148,6 +145,7 @@ public class EmpController {
         map.put(4, "客服人員");
         return map;
     }
+
     @PostMapping("listEmps_ByCompositeQuery")
     public String listAllEmp(HttpServletRequest req, Model model) {
         Map<String, String[]> map = req.getParameterMap();
@@ -158,7 +156,7 @@ public class EmpController {
 
     @ResponseBody
     @GetMapping("applyResetPassword")
-    public String applyResetPassword(@RequestParam Integer empId,@RequestParam String email) throws JsonProcessingException, UnsupportedEncodingException {
+    public String applyResetPassword(@RequestParam Integer empId, @RequestParam String email) throws JsonProcessingException, UnsupportedEncodingException {
         return empService.resetPassword(empId, email);
     }
 
@@ -216,7 +214,7 @@ public class EmpController {
         List<Job> jobList = jobService.getAll();
         model.addAttribute("empListData", empList);
         model.addAttribute("jobListData", jobList); // 添加jobListData到模型中
-        model.addAttribute("getOne_For_Display",false);
+        model.addAttribute("getOne_For_Display", false);
         return "back_end/emp/select_page";
     }
 
@@ -229,6 +227,7 @@ public class EmpController {
         model.addAttribute("jobListData", jobList); // 添加jobListData到模型中
         return "back_end/emp/listAllEmp";
     }
+
     @ModelAttribute("empListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
     protected List<Emp> referenceListData(Model model) {
 
@@ -241,9 +240,6 @@ public class EmpController {
         model.addAttribute("job", new Job()); // for select_page.html 第133行用
         return jobService.getAll();
     }
-
-
-
 
 
 }
