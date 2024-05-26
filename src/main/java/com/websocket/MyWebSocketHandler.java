@@ -50,6 +50,25 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         }
 
     }
+    @Override
+    protected void handleTextMessage(WebSocketSession webSocketSession, TextMessage message) throws Exception {
+        String JSESSIONID = getJSESSIONID(webSocketSession);
+        UserDto userDto = sessionMap.get(webSocketSession.getId());
+        String chatMessage = userDto.username + ":" + message.getPayload();
+        redisTemplate.opsForList().rightPush("chat_history:" + JSESSIONID, chatMessage);
+        notifyAllSessions(JSESSIONID, new TextMessage(chatMessage));
+    }
+    @Override
+    public void afterConnectionClosed(WebSocketSession webSocketSession, org.springframework.web.socket.CloseStatus status) throws Exception {
+        String JSESSIONID = getJSESSIONID(webSocketSession);
+        System.out.println("Disconnected: " + JSESSIONID);
+
+        UserDto userDto = sessionMap.get(webSocketSession.getId());
+        String message = "system:" + userDto.username + " is leaved";
+        notifyAllSessions(JSESSIONID, new TextMessage(message));
+    }
+
+
 
     private static String getJSESSIONID(WebSocketSession webSocketSession) {
         String uri = webSocketSession.getUri().toString();
@@ -71,25 +90,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    @Override
-    protected void handleTextMessage(WebSocketSession webSocketSession, TextMessage message) throws Exception {
-        String JSESSIONID = getJSESSIONID(webSocketSession);
-        UserDto userDto = sessionMap.get(webSocketSession.getId());
-        String chatMessage = userDto.username + ":" + message.getPayload();
-        redisTemplate.opsForList().rightPush("chat_history:" + JSESSIONID, chatMessage);
-        notifyAllSessions(JSESSIONID, new TextMessage(chatMessage));
-    }
-
-
-    @Override
-    public void afterConnectionClosed(WebSocketSession webSocketSession, org.springframework.web.socket.CloseStatus status) throws Exception {
-        String JSESSIONID = getJSESSIONID(webSocketSession);
-        System.out.println("Disconnected: " + JSESSIONID);
-
-        UserDto userDto = sessionMap.get(webSocketSession.getId());
-        String message = "system:" + userDto.username + " is leaved";
-        notifyAllSessions(JSESSIONID, new TextMessage(message));
-    }
 
     private void notifyAllSessions(String JSESSIONID, TextMessage message) throws Exception {
         Map<Object, Object> entries = redisTemplate.opsForHash().entries("connections:" + JSESSIONID);

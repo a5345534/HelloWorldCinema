@@ -114,7 +114,7 @@
 
             <p th:text="${LoginSuccess}" th:if="${LoginSuccess}"></p>
 
-            <h5 onclick="show_hide()">忘記密碼</h5>
+            <a onclick="show_hide()">忘記密碼</a>
 
         </div><!-- login end-->
     </div><!-- container1 end-->
@@ -127,10 +127,10 @@
 
             <h3>忘記密碼</h3>
 
-            <form action="用戶管理.php">
-                <input type="text" id="emp_id" name="emp_id" placeholder="員工編號" required>
+            <form action="/emp/applyResetPassword" method="get">
+                <input type="text" id="emp_id" name="empId" placeholder="員工編號" required>
                 <div class="tab"></div>
-                <input type="text" id="emp_email" name="emp_email" placeholder="電子郵件" required>
+                <input type="text" id="emp_email" name="email" placeholder="電子郵件" required>
                 <div class="tab"></div>
                 <!--            <input type="text" id="password2" name="password" placeholder="密碼" required>-->
                 <!--            <div class="tab"></div>-->

@@ -16,7 +16,7 @@ public class Job {
 
     @Column(name = "title",length = 4)
     private String title;
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="job")
+    @OneToMany(cascade=CascadeType.REMOVE, fetch=FetchType.EAGER, mappedBy="job")
     private Set<Emp> emps = new HashSet<Emp>();
 
 

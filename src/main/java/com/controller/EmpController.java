@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 
 @Controller
@@ -164,22 +165,22 @@ public class EmpController {
     public String resetPasswordLink(@RequestParam String param, RedirectAttributes redirectAttributes) throws JsonProcessingException {
         //todo 解碼
 
-        //判斷是不是過期
-        ObjectMapper objectMapper = new ObjectMapper();
         // 將JSON字符串轉換為Java對象
+        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> map = objectMapper.readValue(param, HashMap.class);
         Integer empId = (Integer) map.get("empId");
         Long expired = (Long) map.get("expired");
+        //判斷是不是過期
         Date expiredDate = new Date(expired);
         boolean isExpired = (new Date()).after(expiredDate);
         if (isExpired) {
             //todo 將error取代為設計好的頁面名稱
-            return "error";
+            return "/back_end/emp/error";
         }// 將參數添加到重定向URL中
         redirectAttributes.addAttribute("empId", empId);
         redirectAttributes.addAttribute("expired", expired);
 
-        return "redirect:/resetPasswordPage"; // 重定向到resetPasswordPage頁面
+        return "redirect:resetPasswordPage"; // 重定向到resetPasswordPage頁面
     }
 
     @GetMapping("/resetPasswordPage")
@@ -188,7 +189,7 @@ public class EmpController {
         // 將需要的數據放入Model中，進行視圖渲染
         model.addAttribute("empId", empId);
         model.addAttribute("expired", expired);
-        return "resetPasswordPage"; // 返回 resetPasswordPage 頁面
+        return "back_end/emp/forgetPassword"; // 返回 resetPasswordPage 頁面
     }
 
     @GetMapping("doResetPassword")
@@ -197,7 +198,7 @@ public class EmpController {
 
         try {
             if (!password.equals(cPassword)) {
-                throw new Exception();
+                return "兩次密碼不一樣啦!";
             }
             Emp emp = empService.getbyId(empId);
             emp.setEmpPassword(password);

@@ -5,11 +5,8 @@ import com.dao.EmpRepository;
 import com.entity.Emp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.util.HUCompositeQuery;
 import com.util.MailUtil;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -76,6 +73,8 @@ public class EmpService {
         //檢查有沒有此員工
         Emp emp = empRepository.findByEmpId(empId);
         if (ObjectUtils.isEmpty(emp)) return "你哪位?";
+        String empEmail = emp.getEmpEmail();
+        if(!empEmail.equals(email)) return "是要送去哪?";
         //製作有時限的連結
         Date now = new Date();
         Date expiredDate = new Date(now.getTime() + 10 * 60 * 1000); // 加上十分鐘的毫秒數
@@ -89,7 +88,7 @@ public class EmpService {
         //轉成url編碼
         String encode = URLEncoder.encode(json, "UTF-8");
         //宣告網址
-        String url = "http://localhost:8081/emp/resetPasswordLink?param=" + encode;
+        String url = "http://localhost:8080/emp/resetPasswordLink?param=" + encode;
         //發重設密碼連結
         mailUtil.sendMail(email, "重設密碼", url);
         return "請去收信";

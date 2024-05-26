@@ -22,7 +22,7 @@ public class Merch {
 	private Integer merchId;
 	
 	@OneToMany(mappedBy = "merch", cascade = CascadeType.ALL)
-	@OrderBy("merchId asc")
+//	@OrderBy("merchId ASC")
 	private Set<MerchItem> merchItems;
 	
 	@Column(name = "merch_name", nullable = false, length = 30)

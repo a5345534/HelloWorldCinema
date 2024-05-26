@@ -1,12 +1,14 @@
 package com.controller;
 
 
+import com.entity.Emp;
 import com.entity.Merch;
 import com.service.MerchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,6 +68,14 @@ public class MerchController {
         return "back_end/merchStore/addMerch";
     }
 
+    @GetMapping("/addMerch")
+    public String getaddMerch(Model model) {
+
+        Merch merch = new Merch();
+        model.addAttribute(merch);
+        return "back_end/merchStore/addMerch";
+    }
+
 //    @PostMapping("/saveMerch")
 //    public String saveMerch(@RequestParam("merchId")Integer merchId,@RequestParam("merchImg") MultipartFile merchImg,Model model){
 //
@@ -101,14 +111,28 @@ public class MerchController {
 
     }
 
+    @PostMapping("getOne_For_Update")
+    public String getOne_For_Update(@RequestParam("merchId") String merchId, ModelMap model) {
+
+        // EmpService empSvc = new EmpService();
+        Merch merch = merchService.getbyMerchId(Integer.valueOf(merchId));
+        model.addAttribute("merch", merch);
+        return "back_end/merchStore/updateMerch"; // 查詢完成後轉交update_emp_input.html
+    }
+
     @PostMapping("/updateMerch")
     public String updateMerch(@Valid Merch merch, Model model) {
 
         merchService.updateMerch(merch);
         model.addAttribute("success", "修改成功");
         merch = merchService.getbyMerchId(Integer.valueOf(merch.getMerchId()));
-        return "back_end/merchStore/getbyMerchId";
+        return "back_end/merchStore/listAllMerch";
 
+    }
+
+    @GetMapping("/updateMerch")
+    public String getupdateMerch(){
+        return "back_end/merchStore/listAllMerch";
     }
 
     @PostMapping("/deleteMerch")
