@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class PermissionFilter implements HandlerInterceptor {
@@ -31,8 +32,12 @@ public class PermissionFilter implements HandlerInterceptor {
         if (cookieValue != null && !cookieValue.isEmpty()) {
             byte[] decodedBytes = Base64.getDecoder().decode(cookieValue);
             String decodedValue = new String(decodedBytes);
-            List<Integer> permissions = Arrays.asList(new ObjectMapper().readValue(decodedValue, Integer[].class));
+            Map<String,Object> loginInfoMap = new ObjectMapper().readValue(decodedValue, Map.class);
+            List<Integer> permissions = (List<Integer>)loginInfoMap.get("permissions");
+            String username = (String) loginInfoMap.get("username");
+
             request.setAttribute("permissions", permissions);
+            request.setAttribute("username", username);
         }
 
         return true; // 继续请求处理链

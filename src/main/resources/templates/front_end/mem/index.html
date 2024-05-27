@@ -39,8 +39,9 @@
     <!-- 選單 -->
     <div th:fragment="header">
         <header class="header">
-            <div id="box" class="logo">
-                <h1 class="neon"><a href=" th:href=@{/front_end/index}"><span class="logo_el">H</span>ello<span class="logo_el">W</span>orld <span class="logo_el">C</span>inema</a></h1>
+            <div class="logo">
+<!--                id="box"-->
+                <h1 class="neon"><a th:href="@{/front_end/index}"><span class="logo_el">H</span>ello<span class="logo_el">W</span>orld <span class="logo_el">C</span>inema</a></h1>
             </div>
             <div id="box">
                 <nav class="nav">
@@ -82,16 +83,16 @@
                             </ul>
                         </li>
                         <li class="nav__menu-item">
-                            <a th:href=@{/rental/f/rentalOrderIndex}><h4 class="neon2">場地租借</h4></a>
+                            <a th:href="@{/rental/f/rentalOrderIndex}"><h4 class="neon2">場地租借</h4></a>
                             <ul class="nav__submenu">
                                 <li class="nav__submenu-item">
-                                    <a th:href=@{/rental/f/rentalOrderIndex}>場地租借須知</a>
+                                    <a th:href="@{/rental/f/rentalOrderIndex}">場地租借須知</a>
                                 </li>
                                 <li class="nav__submenu-item">
-                                    <a th:href=@{/rental/f/listAllRentalOrderF}>可租借場地資訊</a>
+                                    <a th:href="@{/rental/f/listAllRentalOrderF}">可租借場地資訊</a>
                                 </li>
                                 <li class="nav__submenu-item">
-                                    <a th:href=@{/rental/f/m/addRentalOrder}>租借表單填寫</a>
+                                    <a th:href="@{/rental/f/m/addRentalOrder}">租借表單填寫</a>
                                 </li>
                             </ul>
                         </li>
@@ -193,9 +194,9 @@
 
 
 
-    
 
 
+    <div th:include="websocket/client_chat"></div>
     <script src="../../../static/front_end/jquery-3.4.1.min.js"></script>
     
     <!-- 主要js -->

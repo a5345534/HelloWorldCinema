@@ -27,8 +27,7 @@
             <div class="user">
                 <img src="/back_end/hakunamatata.jpg" alt="fang" class="user-img">
                 <div>
-                    <p class="bold">Client B.</p>
-                    <p>Admin</p>
+                    <p th:text="${username}" ></p>
                 </div>
             </div>
 
@@ -122,7 +121,7 @@
 
                     <div class="side">
                         <a class="items" href="http://localhost:8081/HelloWorldCinema/back_end/food/select_page.jsp">
-                            <span class="itemstooltip">餐影管理</span>
+                            <span class="itemstooltip">餐飲管理</span>
                         </a>
                         <a class="items" href="/merch/listAllMerch">
                             <span class="itemstooltip">周邊管理</span>
@@ -163,7 +162,7 @@
                         <a class="items" href="/emp/addEmp">
                             <span class="itemstooltip">新增員工基本資料</span>
                         </a>
-                        <a class="items" href="">
+                        <a class="items" href="/func/listAllFunc">
                             <span class="itemstooltip">員工權限管理</span>
                         </a>
 

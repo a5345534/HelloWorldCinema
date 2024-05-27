@@ -16,11 +16,6 @@ import java.util.Optional;
 
 @Component
 public class EmpFilter implements HandlerInterceptor {
-
-
-
-
-
     String[] ignoreUrls = {"/emp/toLogin","/emp/doLogin","/emp/resetPasswordLink","/front_end/**","/websocket/**","/client_chat.html", "/mem/**", "/rental/**",
             "/**/*.js", "/**/*.css", "/**/*.jpg", "/**/*.jpeg", "/**/*.png", "/**/*.gif", "/**/*.svg","/**/*.ico"};
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -28,12 +23,12 @@ public class EmpFilter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         request.getSession();//目的將JSESSIONID透過cookie傳回前端，方便後續的session追蹤
         Cookie[] cookies = request.getCookies();
-        String contextPath = request.getContextPath();
         Optional<Cookie> loginAlready = null;
         if (!ObjectUtils.isEmpty(cookies)) {
             loginAlready = Arrays.stream(cookies).filter(cookie -> "loginAlready".equals(cookie.getName())).findFirst();
         }
 
+        String contextPath = request.getContextPath();
         String requestURI = request.getRequestURI();
 
         // 使用AntPathMatcher進行路徑匹配

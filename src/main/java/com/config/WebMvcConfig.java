@@ -1,8 +1,6 @@
 package com.config;
 
-import com.filter.CustomHandshakeInterceptor;
 import com.filter.EmpFilter;
-import com.filter.EmpFilter2;
 import com.filter.MemFilter;
 import com.filter.PermissionFilter;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +12,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new EmpFilter()).order(1);
-        registry.addInterceptor(new EmpFilter2()).order(1);
+        registry.addInterceptor(new EmpFilter()).order(1);
         registry.addInterceptor(new PermissionFilter()).order(2);
         registry.addInterceptor(new MemFilter()).order(3);
     }

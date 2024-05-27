@@ -47,14 +47,20 @@ public class EmpController {
     public String login(@RequestParam(name = "username") Integer empId, @RequestParam(name = "password") String empPassword, Model model, HttpServletResponse response) throws IOException {
         Emp loginedEmp = empService.login(empId, empPassword);
         if (!ObjectUtils.isEmpty(loginedEmp)) {
-            List<Integer> funIds = permissionService.getFuncIdByJobId(loginedEmp.getJob().getJobId());
-            ObjectMapper mapper = new ObjectMapper();
-            String funcIdsString = mapper.writeValueAsString(funIds);
-            String funIdsString = Base64.getEncoder().encodeToString(funcIdsString.getBytes());
 
-            Cookie loginInfo = new Cookie("loginAlready", funIdsString);
-            loginInfo.setPath("/");
-            response.addCookie(loginInfo);
+            List<Integer> funIds = permissionService.getFuncIdByJobId(loginedEmp.getJob().getJobId());
+
+            Map<String,Object> loginInfo = new HashMap<>();
+            loginInfo.put("permissions",funIds);
+            loginInfo.put("username",loginedEmp.getEmpName());
+
+            ObjectMapper mapper = new ObjectMapper();
+            String loginInfoJson = mapper.writeValueAsString(loginInfo);
+            String loginInfoString = Base64.getEncoder().encodeToString(loginInfoJson.getBytes());
+
+            Cookie loginInfoCookie = new Cookie("loginAlready", loginInfoString);
+            loginInfoCookie.setPath("/");
+            response.addCookie(loginInfoCookie);
             return "redirect:/emp/index";
         }
         return "redirect:/emp/toLogin";
@@ -63,6 +69,11 @@ public class EmpController {
     @GetMapping("index")
     public String index() {
         return "back_end/emp/index";
+    }
+
+    @GetMapping("front")
+    public String frontindex() {
+        return "front_end/index";
     }
 
     @PostMapping("/addEmp")
