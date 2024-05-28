@@ -272,7 +272,7 @@
             if (webSocket) {
                 webSocket.close();
             }
-            webSocket = new WebSocket(`ws://localhost:8080/websocket/${sessionId}/service`);
+            webSocket = new WebSocket(`http://helloworldcinema.ddns.net:8080/websocket/${sessionId}/service`);
 
             webSocket.onmessage = function (event) {
                 serverReceivedMessage(event);

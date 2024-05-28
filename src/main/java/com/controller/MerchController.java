@@ -131,7 +131,7 @@ public class MerchController {
 
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         // 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-        result = removeFieldError(merch, result, 	"upFiles");
+        result = removeFieldError(merch, result, 	"merchImg");
 
         if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新圖片時
             // EmpService empSvc = new EmpService();
@@ -144,12 +144,13 @@ public class MerchController {
             }
         }
         if (result.hasErrors()) {
-            return "back-end/merchStore/update_merch_input";
+            return "error";
         }
 
         merchService.updateMerch(merch);
         model.addAttribute("success", "修改成功");
         merch = merchService.getbyMerchId(Integer.valueOf(merch.getMerchId()));
+        model.addAttribute("merch", merch);
         return "back_end/merchStore/listAllMerch";
 
     }

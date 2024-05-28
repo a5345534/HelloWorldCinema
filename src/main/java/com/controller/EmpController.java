@@ -110,7 +110,7 @@ public class EmpController {
 
     }
 
-    @PostMapping("getOne_For_Update")
+    @PostMapping("/getOne_For_Update")
     public String getOne_For_Update(@RequestParam("empId") String empId, ModelMap model) {
 
         // EmpService empSvc = new EmpService();

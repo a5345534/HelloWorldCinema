@@ -3,6 +3,8 @@
 /* footer內容 */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 
 /* 載入動畫 */
 canvas {
@@ -177,7 +179,7 @@ h1 span {
 }
 
 /* footer內容 */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 body{
 	line-height: 1.5;
 	font-family: 'Poppins', sans-serif;
@@ -210,8 +212,10 @@ ul{
 	list-style: none;
 }
 .footer{
-  height: 350;
+  height: 350px;
   padding: 10px 0;
+
+  display: block;
 }
 .footer-col{
   height: 350px ;
@@ -284,11 +288,192 @@ ul{
 }
 }
 
-.copy_right{
-  margin-left: 420px;
-  /* margin-bottom: 50px; */
-  color:#2e78a0;
+
+     /* Add your styles for the chat container here */
+ .chat-container {
+     display: none;
+     position: fixed;
+     bottom: 20px;
+     right: 20px;
+     width: 400px;
+     /*background-color: white;*/
+     /*border: 1px solid #ccc;*/
+     /*padding: 10px;*/
+     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+ }
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+#customer-messages {
+    max-height: 50vh; /* 設定最大高度 */
+    overflow-y: auto; /* 啟用垂直滾動條 */
+    /* 可選：設定其他樣式 */
+}
+
+.card {
+    width: 300px;
+    border: none;
+    border-radius: 15px;
+}
+
+.adiv {
+    background: #04CB28;
+    border-radius: 15px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 46px;
+}
+
+.chat {
+    border: none;
+    background: #E2FFE8;
+    font-size: 15px;
+    border-radius: 20px;
+}
+
+.bg-white {
+    border: 1px solid #E7E7E9;
+    font-size: 10px;
+    border-radius: 20px;
+}
+
+.myvideo img {
+    border-radius: 20px
+}
+
+.dot {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 12px;
+    border: 1px solid #F0F0F0;
+    font-size: 12px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.form-control::placeholder {
+    font-size: 12px;
+    color: #C4C4C4;
+}
+
+.media {
+    padding: 16px 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.media-meta-day {
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-bottom: 0;
+    color: #8b95a5;
+    opacity: .8;
+    font-weight: 400;
+}
+
+.media {
+    padding: 16px 12px;
+    -webkit-transition: background-color .2s linear;
+    transition: background-color .2s linear;
+}
+
+.media-meta-day::before {
+    margin-right: 16px;
+}
+
+.media-meta-day::before, .media-meta-day::after {
+    content: '';
+    -webkit-box-flex: 1;
+    flex: 1 1;
+    border-top: 1px solid #ebebeb;
+}
+
+.media-meta-day::after {
+    content: '';
+    -webkit-box-flex: 1;
+    flex: 1 1;
+    border-top: 1px solid #ebebeb;
+}
+
+.media-meta-day::after {
+    margin-left: 16px;
+}
+
+body {
+    margin-top: 20px;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    overflow-y: auto
+}
+
+.chat-message-left,
+.chat-message-right,
+.chat-message-center {
+    display: flex;
+    flex-shrink: 0
+}
+
+.chat-message-left {
+    margin-right: auto
+}
+
+.chat-message-right {
+    flex-direction: row-reverse;
+    margin-left: auto
+}
+
+.chat-message-center {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80%; /* 限制最大寬度，可以根據需要調整 */
+}
+
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+.px-4 {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+}
+
+.flex-grow-0 {
+    flex-grow: 0 !important;
+}
+
+.border-top {
+    border-top: 1px solid #dee2e6 !important;
+}
+
+
+
+
 
 
 

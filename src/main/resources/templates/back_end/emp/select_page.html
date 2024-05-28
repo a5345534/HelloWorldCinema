@@ -41,9 +41,8 @@
                         <label for="empName" class="col-form-label">員工姓名:</label>
                     </div>
                     <div class="col-7">
-                        <select class="form-select" id="empName" name="empName">
-                            <option th:each="emp : ${empListData}" th:value="${emp.empId}"
-                                    th:text="${emp.empName}"/>
+                        <select class="form-select" id="empName" name="empId">
+                            <option th:each="emp : ${empListData}" th:value="${emp.empId}" th:text="${emp.empName}"/>
                         </select>
                     </div>
                     <input class="col-2 btn btn-dark" type="submit" value="送出">

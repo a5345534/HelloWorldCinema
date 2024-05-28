@@ -8,8 +8,8 @@
 <body>
 
 <div th:fragment="content">
-    <div class="card w-75 text-center">
-        <div class="card-header text-center bold rounded-top">
+    <div class="card w-75 mx-auto text-center mt-5">
+        <div class="card-header text-center img-center bold rounded-top">
             <h1>商品資料修改</h1>
         </div>
     <h3><b>所有欄位皆為必填欄位</b></h3>
@@ -46,12 +46,13 @@
                     <label for="merchImg" class="form-label col-4">照片:</label>
                     <input id="merchImg" class="form-control col-8" type="file" th:field="*{merchImg}" onclick="previewImage()" multiple="multiple" />
                     <!-- 可以不修改圖片 <span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
-                    <div id="merchImg"><img th:src="${merch.merchImg}" width="100px"></div>
+<!--                    <div id="blob_holder" class="mt-2"><img th:src="${merch.merchImg}" width="100px"></div>-->
+                    <div id="blob_holder"><img th:src="@{/merch/DBGifReader}" width="100px"></div>
                 </div>
 
         <div>
-            <button class="btn btn-dark" type="submit"> 送出修改<label th:text="${success}"></label></button>
-
+            <button class="btn btn-dark" type="submit"> 送出修改</button>
+<!--            <label th:text="${success}"></label>-->
         </div>
     </form>
 

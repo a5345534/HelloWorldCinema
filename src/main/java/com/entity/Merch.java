@@ -28,7 +28,7 @@ public class Merch {
 	@Column(name = "merch_name", nullable = false, length = 30)
 	private String merchName;
 
-	@Column(name = "merch_img", columnDefinition = "longblob")
+	@Column(name = "merch_img", columnDefinition = "mediumblob")
 	private byte[] merchImg;
 	
 	@Column(name = "merch_info", length = 500)
