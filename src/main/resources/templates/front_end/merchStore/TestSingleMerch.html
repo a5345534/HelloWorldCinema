@@ -125,31 +125,13 @@
         <div class = "product-imgs">
             <div class = "img-display">
                 <div class = "img-showcase">
-                    <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5.jpg" alt = "shoe image">
-                    <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5-1.jpg" alt = "shoe image">
-                    <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5-2.jpg" alt = "shoe image">
-                    <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5-3.jpg" alt = "shoe image">
+                    <img th:src="${merch.merchImg}" alt = "shoe image">
                 </div>
             </div>
             <div class = "img-select">
                 <div class = "img-item">
                     <a href = "#" data-id = "1">
-                        <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5.jpg" alt = "shoe image">
-                    </a>
-                </div>
-                <div class = "img-item">
-                    <a href = "#" data-id = "2">
-                        <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5-1.jpg" alt = "shoe image">
-                    </a>
-                </div>
-                <div class = "img-item">
-                    <a href = "#" data-id = "3">
-                        <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5-2.jpg" alt = "shoe image">
-                    </a>
-                </div>
-                <div class = "img-item">
-                    <a href = "#" data-id = "4">
-                        <img src = "../../../../../../../Users/Chu/Desktop/frontend_html/img/merch5-3.jpg" alt = "shoe image">
+                        <img th:src="${merch.merchImg}" alt = "shoe image">
                     </a>
                 </div>
             </div>
@@ -246,6 +228,7 @@
 </div>
 
 
+<div th:include="websocket/client_chat"></div>
 <!-- ========================以上區域可放置其他內容======================== -->
 <br>
 
@@ -309,6 +292,59 @@
 <!-- 主要js -->
 <script th:src="@{/front_end/index/js/index.js}"></script>
 <script th:src="@{/front_end/merchStore/js/singleMerch.js}"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    /*html, body {*/
+    /*    margin: 0;*/
+    /*    padding: 0;*/
+    /*    width: 100%;*/
+    /*    height: 100%;*/
+    /*    overflow: hidden; !* 避免出現滾動條 *!*/
+    /*}*/
+    /*.content {*/
+    /*    width: calc(100vw - 300px);*/
+    /*    height: calc(100vh - 50px);*/
+    /*    background: white;*/
+    /*    border-radius: 10px;*/
+    /*    padding: 50px;*/
+    /*    position: relative; !* 必須設置以便後續的絕對定位生效 *!*/
+    /*}*/
+
+    /*.content::before {*/
+    /*    content: '';*/
+    /*    position: absolute;*/
+    /*    top: 0;*/
+    /*    left: 0;*/
+    /*    right: 0;*/
+    /*    bottom: 0;*/
+    /*    background: inherit; !* 繼承背景色 *!*/
+    /*    filter: blur(15px); !* 設置虛化程度 *!*/
+    /*    z-index: -1; !* 保持在背後 *!*/
+    /*    margin: -10px; !* 控制虛化邊界的寬度 *!*/
+    /*}*/
+
+    /*.inner-content{*/
+    /*    width: 100%;*/
+    /*    height: 100%;*/
+    /*    overflow-y: auto;*/
+    /*}*/
+
+    /*.sidebarContent{*/
+    /*    z-index: 1000;*/
+    /*}*/
+    /*.menu > ol, ul{*/
+    /*    padding-left: 0;*/
+    /*}*/
+
+    /*.items {*/
+
+
+    /*}*/
+</style>
+
 <!-- 查看購物車 -->
 <script src="merchStore.html"></script>
 

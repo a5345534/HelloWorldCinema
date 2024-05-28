@@ -71,7 +71,8 @@ public class EmpController {
         return "back_end/emp/index";
     }
 
-    @GetMapping("front")
+
+    @GetMapping("front_end/index")
     public String frontindex() {
         return "front_end/index";
     }
@@ -209,14 +210,14 @@ public class EmpController {
 
         try {
             if (!password.equals(cPassword)) {
-                return "兩次密碼不一樣啦!";
+                return "兩次輸入密碼不相同!";
             }
             Emp emp = empService.getbyId(empId);
             emp.setEmpPassword(password);
             empService.updateEmp(emp);
-            return "修改好了";
+            return "修改完成";
         } catch (Exception e) {
-            return "啊失敗了";
+            return "修改失敗";
         }
     }
 

@@ -72,9 +72,9 @@ public class EmpService {
     public String resetPassword(Integer empId, String email) throws JsonProcessingException, UnsupportedEncodingException {
         //檢查有沒有此員工
         Emp emp = empRepository.findByEmpId(empId);
-        if (ObjectUtils.isEmpty(emp)) return "你哪位?";
+        if (ObjectUtils.isEmpty(emp)) return "員工編號輸入錯誤";
         String empEmail = emp.getEmpEmail();
-        if(!empEmail.equals(email)) return "是要送去哪?";
+        if(!empEmail.equals(email)) return "電子郵件輸入錯誤";
         //製作有時限的連結
         Date now = new Date();
         Date expiredDate = new Date(now.getTime() + 10 * 60 * 1000); // 加上十分鐘的毫秒數
@@ -91,7 +91,7 @@ public class EmpService {
         String url = "http://localhost:8080/emp/resetPasswordLink?param=" + encode;
         //發重設密碼連結
         mailUtil.sendMail(email, "重設密碼", url);
-        return "請去收信";
+        return "請前往信箱收信";
     }
 
 

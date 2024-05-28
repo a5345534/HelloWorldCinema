@@ -47,13 +47,16 @@
 <body>
 <div th:fragment="content">
 <!--<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top justify-content-center">-->
-    <div align="center"> <h2>周邊商品</h2>
-        <h3><a class="navbar-brand" th:href="@{select_page_merch}">回查詢頁<label th:text="${success}"></label></a></h3></div>
-</nav>
-
-<table id="example" class="display" style="width: 100%">
+    <div class="card w-100 overflow-auto p-0">
+        <div class="card-header text-center bold rounded-top"><h2>周邊商品</h2></div>
+<!--        <h3><a class="navbar-brand" th:href="@{select_page_merch}">回查詢頁<label th:text="${success}"></label></a></h3></div>-->
+<!--</nav>-->
+        <div class="m-2">
+        <a class="btn btn-dark" href="/merch/addMerch" style="float:right;">Add Merch</a>
+        </div>
+<table id="example" class="table table-striped">
     <thead >
-    <tr style="background-color:dodgerblue">
+    <tr>
         <th>商品編號</th>
         <th>商品名稱</th>
         <th>商品圖片</th>
@@ -71,7 +74,7 @@
         <tr>
             <td th:text="${merch.merchId}"></td>
             <td th:text="${merch.merchName}"></td>
-            <td th:text="${merch.merchImg}"></td>
+            <td><img th:src="@{/merch/DBGifReader(merchId=${merch.merchId})}"></td>
             <td th:text="${merch.merchInfo}"></td>
             <td th:text="${merch.merchPrice}"></td>
             <td th:text="${merch.merchStatus}">
@@ -85,16 +88,16 @@
 
 
 
-            <!--            <td><img th:src="@{/emp/DBGifReader} + '?empno=' + ${empVO.empno}" width="100px"></td>-->
-<!--            <td th:text="${empVO.jobVO.jobId} + '-[' + ${empVO.jobVO.title} + ']'"></td>-->
+<!--                        <td><img th:src="@{/merch/DBGifReader} + '?merchId=' + ${Merch.merchId}" width="100px"></td>-->
+<!--            <td th:text="${Merch.jobVO.jobId} + '-[' + ${empVO.jobVO.title} + ']'"></td>-->
             <td>
-                <form method="get" th:action="@{updateMerch}" style="margin-bottom: 0px;">
+                <form method="post" action="/merch/toUpdateMerch" style="margin-bottom: 0px;">
                     <input type="submit" value="修改">
                     <input type="hidden" name="merchId" th:value="${merch.merchId}"></form>
 
             </td>
             <td>
-                <form method="post" th:action="@{deleteMerch}" style="margin-bottom: 0px;">
+                <form method="post" action="/merch/deleteMerch" style="margin-bottom: 0px;">
                     <input type="submit" value="刪除">
                     <input type="hidden" name="merchId" th:value="${merch.merchId}"></form>
 
@@ -103,6 +106,8 @@
     </th:block>
     </tbody>
 </table>
+
 </div>
+
 </body>
 </html>

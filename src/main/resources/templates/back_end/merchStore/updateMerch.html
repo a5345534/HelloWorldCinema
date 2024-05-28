@@ -3,95 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>商品資料修改 - updateMerch.html</title>
-
-
-    <style type="text/css">
-
-        button {
-            padding: 5px;
-        }
-        form {
-            display: table;
-        }
-        form div {
-            display: table-row;
-        }
-        label, input, span, select {
-            display: table-cell;
-            margin: 5px;
-            text-align: left;
-        }
-        input[type=text], input[type=password], select, textarea {
-            width: 200px;
-            margin: 5px;
-        }
-        form div div {
-            display: table-cell;
-        }
-        .center {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+    <title>商品資料修改</title>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top justify-content-center">
-    <div align="center"> <h2>商品資料修改 - updateMerch.html</h2>
-        <h3><a class="navbar-brand" >回查詢頁</a></h3></div>
-<!--    th:href="@{/emp/select_page}-->
-</nav>
-
-<div align="center">
+<div th:fragment="content">
+    <div class="card w-75 text-center">
+        <div class="card-header text-center bold rounded-top">
+            <h1>商品資料修改</h1>
+        </div>
     <h3><b>所有欄位皆為必填欄位</b></h3>
-    <form th:action="@{updateMerch}" method="post" th:object="${merch}" enctype="multipart/form-data">
-        <div>
-            <label>商品編號:</label>
-            <input type="text" th:field="*{merchId}" style="border:0px ; font-weight: bold;" readonly /><br/>
-            <input type="hidden" th:field="*{merchId}" /> <!-- 新增隱藏的商品編號欄位 -->
+    <form th:action="@{/merch/doUpdateMerch}" method="post" th:object="${merch}" enctype="multipart/form-data">
+        <div class="mb-1 row">
+            <label for="merchId" class="form-label col-4">商品編號:</label>
+            <input id="merchId" class="form-control col-8" type="text" th:field="*{merchId}" readonly/><br/>
         </div>
 
-        <div>
-            <label>商品姓名:</label>
-            <input type="text" th:field="*{merchName}" onclick="hideContent('merchName.errors');" /><br/>
+        <div class="mb-1 row">
+            <label for="merchName" class="form-label col-4">商品姓名:</label>
+            <input id="merchName" class="form-control col-8" type="text" th:field="*{merchName}" onclick="hideContent('merchName.errors');"/><br/>
             <span  th:if="${#fields.hasErrors('merchName')}" th:errors="*{merchName}" class="error" id="merchName.errors"></span>
         </div>
 
-        <div>
-            <label>商品資訊:</label>
-            <input type="text" th:field="*{merchInfo}" onclick="hideContent('merchInfo.errors');" /><br/>
+        <div class="mb-1 row">
+            <label for="merchInfo" class="form-label col-4">商品資訊:</label>
+            <input id="merchInfo" class="form-control col-8" type="text" th:field="*{merchInfo}" onclick="hideContent('merchInfo.errors');"/><br/>
             <span  th:if="${#fields.hasErrors('merchInfo')}" th:errors="*{merchInfo}" class="error" id="merchInfo.errors"></span>
         </div>
 
-        <div>
-            <label>商品價格:</label>
-            <input type="text" th:field="*{merchPrice}" onclick="hideContent('merchPrice.errors');" /><br/>
+        <div class="mb-1 row">
+            <label for="merchPrice" class="form-label col-4">商品價格:</label>
+            <input id="merchPrice" class="form-control col-8" type="text" th:field="*{merchPrice}" onclick="hideContent('merchPrice.errors');"/><br/>
             <span  th:if="${#fields.hasErrors('merchPrice')}" th:errors="*{merchPrice}" class="error" id="merchPrice.errors"></span>
         </div>
-        <div>
-            <label>狀態:</label>
-            <input type="text" th:field="*{merchStatus}" onclick="hideContent('merchStatus.errors');" /><br/>
+        <div class="mb-1 row">
+            <label for="merchStatus" class="form-label col-4">狀態:</label>
+            <input id="merchStatus" class="form-control col-8" type="text" th:field="*{merchStatus}" onclick="hideContent('merchStatus.errors');"/><br/>
             <span  th:if="${#fields.hasErrors('merchStatus')}" th:errors="*{merchStatus}" class="error" id="merchStatus.errors"></span>
         </div>
 
-<!--                <div>-->
-<!--                    <label>照片:</label>-->
-<!--                    <input type="file" th:field="*{upFiles}" onclick="previewImage()" multiple="multiple" />-->
-<!--                    &lt;!&ndash; 可以不修改圖片 <span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> &ndash;&gt;-->
-<!--                    <div id="blob_holder"><img th:src="@{/merch/DBGifReader} + '?MerchId=' + ${Merch.merchId}" width="100px"></div>-->
-<!--                </div>-->
+                <div class="mb-1 row">
+                    <label for="merchImg" class="form-label col-4">照片:</label>
+                    <input id="merchImg" class="form-control col-8" type="file" th:field="*{merchImg}" onclick="previewImage()" multiple="multiple" />
+                    <!-- 可以不修改圖片 <span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
+                    <div id="merchImg"><img th:src="${merch.merchImg}" width="100px"></div>
+                </div>
 
         <div>
-            <div></div>
-            <div><button type="submit" > 送出修改 </button><label th:text="${success}"></label></div>
+            <button class="btn btn-dark" type="submit"> 送出修改<label th:text="${success}"></label></button>
+
         </div>
     </form>
 
 </div>
 
 
-<!-- JavaScript part -->
+<!-- JavaScript part-->
 <script type="text/javascript">
     //清除提示信息
     function hideContent(d) {
@@ -111,7 +78,7 @@
     };
 
     function previewImage() {
-        var upfile1 = document.getElementById("upFiles");
+        var upfile1 = document.getElementById("merchImg");
         upfile1.addEventListener("change", function (event) {
             var files = event.target.files || event.dataTransfer.files;
             for (var i = 0; i < files.length; i++) {
@@ -146,5 +113,6 @@
     }
 </script>
 
+</div>
 </body>
 </html>
