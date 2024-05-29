@@ -13,7 +13,7 @@
             <h1>商品資料修改</h1>
         </div>
     <h3><b>所有欄位皆為必填欄位</b></h3>
-    <form th:action="@{/merch/doUpdateMerch}" method="post" th:object="${merch}" enctype="multipart/form-data">
+    <form th:action="@{merch/doUpdateMerch}" method="post" th:object="${merch}" enctype="multipart/form-data">
         <div class="mb-1 row">
             <label for="merchId" class="form-label col-4">商品編號:</label>
             <input id="merchId" class="form-control col-8" type="text" th:field="*{merchId}" readonly/><br/>
