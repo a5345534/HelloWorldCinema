@@ -316,7 +316,7 @@
 
         function connectWebSocket() {
             if (!ws || ws.readyState === WebSocket.CLOSED) {
-                ws = new WebSocket('ws://localhost:8080/websocket/newConnect/customer');
+                ws = new WebSocket('ws:localhost:8080/websocket/newConnect/customer');
 
                 ws.onopen = function () {
                     console.log('Connected to the server');
