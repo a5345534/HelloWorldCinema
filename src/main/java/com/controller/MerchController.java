@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class MerchController {
     }
 
     @GetMapping("/front")
-        public String front() {
+    public String front() {
         return "front_end/merchStore/TestMerchStore";
     }
 
@@ -82,9 +83,8 @@ public class MerchController {
     }
 
 
-
     @PostMapping("/insertMerch")
-    public String insert(@Valid Merch merch, BindingResult result, Model model,@RequestParam("merchImg") MultipartFile[] parts)throws IOException {
+    public String insert(@Valid Merch merch, BindingResult result, Model model, @RequestParam("merchImg") MultipartFile[] parts) throws IOException {
 /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         // 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
         result = removeFieldError(merch, result, "merchImg");
@@ -94,7 +94,8 @@ public class MerchController {
         } else {
             for (MultipartFile multipartFile : parts) {
                 byte[] buf = multipartFile.getBytes();
-                merch.setMerchImg(buf);
+                String b64 = Base64.getEncoder().encodeToString(buf);
+                merch.setMerchImg(b64);
             }
         }
         if (result.hasErrors() || parts[0].isEmpty()) {
@@ -127,20 +128,21 @@ public class MerchController {
     }
 
     @PostMapping("/updateMerch")
-    public String updateMerch(@Valid Merch merch,BindingResult result, Model model,@RequestParam("merchImg")MultipartFile[] parts) throws IOException  {
+    public String updateMerch(@Valid Merch merch, BindingResult result, Model model, @RequestParam("merchImg") MultipartFile[] parts) throws IOException {
 
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         // 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
-        result = removeFieldError(merch, result, 	"upFiles");
+        result = removeFieldError(merch, result, "upFiles");
 
         if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新圖片時
             // EmpService empSvc = new EmpService();
-            byte[] merchImg = merchService.getbyMerchId(merch.getMerchId()).getMerchImg();
-            merch.setMerchImg(merchImg);
+//            byte[] merchImg = merchService.getbyMerchId(merch.getMerchId()).getMerchImg();
+//            merch.setMerchImg(merchImg);
         } else {
             for (MultipartFile multipartFile : parts) {
                 byte[] merchImg = multipartFile.getBytes();
-                merch.setMerchImg(merchImg);
+                String s = Base64.getEncoder().encodeToString(merchImg);
+                merch.setMerchImg(s);
             }
         }
         if (result.hasErrors()) {
@@ -166,14 +168,18 @@ public class MerchController {
     }
 
     @PostMapping("/toUpdateMerch")
-    public String getupdateMerch(@ModelAttribute("merchId") Merch merch, Model model){
+    public String getupdateMerch(@ModelAttribute("merchId") Merch merch, Model model) {
         merch = merchService.getbyMerchId(merch.getMerchId());
         model.addAttribute("merch", merch);
         return "back_end/merchStore/updateMerch";
     }
 
     @PostMapping("doUpdateMerch")
-    public String update(@ModelAttribute("merch") Merch merch, Model model) {
+    public String update(@ModelAttribute Merch merch, @RequestParam("base64Img") String base64Img, Model model) {
+        // 將 base64Img 賦值給 merch 實體
+        if (base64Img != null && !base64Img.isEmpty()) {
+            merch.setMerchImg(base64Img);
+        }
         merchService.updateMerch(merch);
         model.addAttribute("merch", merch);
         return "back_end/merchStore/updateMerch"; // 修改成功後轉交listOneEmp.html
@@ -215,19 +221,15 @@ public class MerchController {
     }
 
     @PostMapping("/getbyMerchStatus")
-    public String MerchStatus(Model model){
+    public String MerchStatus(Model model) {
         List<Merch> merchlist = merchService.getbyMerchStatus("上架");
-        model.addAttribute("merchStatusList",merchlist);
+        model.addAttribute("merchStatusList", merchlist);
         return "front_end/merchStore/TestMerchStore";
     }
 
     @ModelAttribute("merchListStatus")
-    public List<Merch> listStatus(Model model){
+    public List<Merch> listStatus(Model model) {
         List<Merch> list = merchService.getbyMerchStatus("上架");
         return list;
     }
-
-
-
-
 }

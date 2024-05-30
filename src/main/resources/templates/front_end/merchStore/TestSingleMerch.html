@@ -40,7 +40,7 @@
 <!-- 選單 -->
 <header class="header">
     <div id="box" class="logo">
-        <h1 class="neon"><a href="../index.html"><span class="logo_el">H</span>ello<span class="logo_el">W</span>orld <span class="logo_el">C</span>inema</a></h1>
+        <h1 class="neon"><a href="emp/front_end/index"><span class="logo_el">H</span>ello<span class="logo_el">W</span>orld <span class="logo_el">C</span>inema</a></h1>
     </div>
     <div id="">
         <nav class="nav">
@@ -125,13 +125,13 @@
         <div class = "product-imgs">
             <div class = "img-display">
                 <div class = "img-showcase">
-                    <img th:src="${merch.merchImg}" alt = "shoe image">
+                    <img th:src="'data:image/jpeg;base64,' + ${merch.merchImg}" alt = "shoe image">
                 </div>
             </div>
             <div class = "img-select">
                 <div class = "img-item">
                     <a href = "#" data-id = "1">
-                        <img th:src="${merch.merchImg}" alt = "shoe image">
+                        <img th:src="'data:image/jpeg;base64,' + ${merch.merchImg}" alt = "shoe image">
                     </a>
                 </div>
             </div>

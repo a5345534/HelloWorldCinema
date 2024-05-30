@@ -74,7 +74,7 @@
         <tr>
             <td th:text="${merch.merchId}"></td>
             <td th:text="${merch.merchName}"></td>
-            <td><img th:src="@{/merch/DBGifReader(merchId=${merch.merchId})}"></td>
+            <td><img th:src="'data:image/jpeg;base64,' + ${merch.merchImg}" style="width: 100px; height: auto;"></td>
             <td th:text="${merch.merchInfo}"></td>
             <td th:text="${merch.merchPrice}"></td>
             <td th:text="${merch.merchStatus}">

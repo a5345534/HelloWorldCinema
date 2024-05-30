@@ -145,7 +145,7 @@
     <div id="shop">
         <div class="products" th:each="merch : ${merchListStatus}">
             <a th:href="@{/merch/merchId/{id}(id=${merch.merchId})}">
-                <img class="product-image" th:src="${merch.merchImg}">
+                <img class="product-image" th:src="'data:image/jpeg;base64,' + ${merch.merchImg}">
 <!--                <img class="product-image" th:src="@{{url}(url=${merch.merchImg})}">-->
                 <p class="product-name"><span th:text="${merch.merchName}"></span></p>
                 <p class="product-price">售價:$<span th:text="${merch.merchPrice}"></span></p>
