@@ -1,10 +1,12 @@
 package com.entity;
 
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 @Entity
@@ -17,15 +19,24 @@ public class Emp {
     private Integer empId;
 
     @Column(name = "emp_name", length = 10)
+    @NotEmpty(message="員工姓名: 請勿空白")
+    @Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$", message = "員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間")
     private String empName;
 
     @Column(name = "emp_password", length = 12,nullable = false)
+    @NotEmpty(message="員工密碼: 請勿空白")
+    @Pattern(regexp = "^[(a-zA-Z0-9_)]{2,10}$", message = "員工密碼: 只能是英文字母、數字和_ , 且長度必需在2到10之間")
     private String empPassword;
 
     @Column(name = "emp_email", length = 40)
+    @NotEmpty(message="員工信箱: 請勿空白")
+    @Pattern(regexp = "^[(a-zA-Z0-9_)]{2,40}$", message = "員工密碼: 只能是英文字母、數字和_ , 且長度必需在2到40之間")
     private String empEmail;
 
     @Column(name = "hiredate")
+    @NotNull(message="雇用日期: 請勿空白")
+    @Future(message="日期必須是在今日(不含)之後")
+    @Past(message="日期必須是在今日(含)之前")
     private Date hireDate;
 
     @ManyToOne
@@ -33,6 +44,7 @@ public class Emp {
     private Job job;
 
     @Column(name = "emp_status", length = 3,nullable = false)
+    @NotEmpty(message="員工狀態: 請勿空白")
     private String empStatus;
 
 

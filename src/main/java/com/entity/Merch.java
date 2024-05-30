@@ -12,6 +12,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "merch")
@@ -26,18 +27,25 @@ public class Merch {
 	private Set<MerchItem> merchItems;
 	
 	@Column(name = "merch_name", nullable = false, length = 30)
+	@NotEmpty(message="商品名稱: 請勿空白")
 	private String merchName;
 
 	@Column(name = "merch_img", columnDefinition = "longtext")
 	private String merchImg;
 	
 	@Column(name = "merch_info", length = 500)
+	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{1,500}$", message = "員工姓名: 只能是中、英文字母、數字和_ , 且長度必需在1到500之間")
+	@NotEmpty(message="商品資訊: 請勿空白")
 	private String merchInfo;
 	
 	@Column(name = "merch_price", nullable = false)
+	@DecimalMin(value = "1", message = "商品價格: 不能小於{value}")
+	@DecimalMax(value = "99999", message = "商品價格: 不能超過{value}")
+	@NotNull(message="商品價格: 請勿空白")
 	private Integer merchPrice;
 	
 	@Column(name = "merch_status", nullable = false, length = 2)
+	@NotNull(message="商品狀態:請填入上、下架")
 	private String merchStatus;
 	
 	

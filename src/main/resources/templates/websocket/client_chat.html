@@ -11,14 +11,13 @@
         .chat-container {
             display: none;
             position: fixed;
-            bottom: 50px;
+            bottom: 20px;
             right: 20px;
-            width: 300px;
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 50px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 9999;
+            width: 400px;
+            /*background-color: white;*/
+            /*border: 1px solid #ccc;*/
+            /*padding: 10px;*/
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
         }
 
         .floating-button {
@@ -34,7 +33,6 @@
             font-size: 24px;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 9999;
         }
 
         #customer-messages {
@@ -82,7 +80,6 @@
             border-radius: 12px;
             border: 1px solid #F0F0F0;
             font-size: 12px;
-
         }
 
         .form-control:focus {
@@ -319,7 +316,7 @@
 
         function connectWebSocket() {
             if (!ws || ws.readyState === WebSocket.CLOSED) {
-                ws = new WebSocket('ws:http://helloworldcinema.ddns.net:8080/websocket/newConnect/customer');
+                ws = new WebSocket('ws:localhost:8080/websocket/newConnect/customer');
 
                 ws.onopen = function () {
                     console.log('Connected to the server');

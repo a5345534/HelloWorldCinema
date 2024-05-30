@@ -17,6 +17,9 @@ import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -27,14 +30,18 @@ import java.util.Objects;
 public class Func{
 
     @Id
-    @Column(name = "func_id")
+    @Column(name = "func_id",nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer funcId;
 
     @Column(name = "func",nullable = false,length = 10)
+    @Size(min=1,max=10,message="員工職位: 長度必需在{min}到{max}之間")
+    @NotEmpty(message="功能: 請勿空白")
     private String func;
 
     @Column(name = "func_detail",length = 255)
+    @Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]$", message = "功能細節: 只能是中、英文字母、數字")
+    @NotEmpty(message="功能細節: 請勿空白")
     private String funcDetail;
 
 
