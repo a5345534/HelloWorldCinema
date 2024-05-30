@@ -8,12 +8,31 @@
 <body>
 
 <div th:fragment="content">
-    <div class="card w-75 mx-auto text-center mt-5">
-        <div class="card-header text-center img-center bold rounded-top">
+
+    <script>
+
+        function encodeImageFileAsURL(){
+            var fileInput = document.getElementById('merchImg');
+            var preview = document.getElementById('imgPreview');
+            var base64Input = document.getElementById('base64Img');
+
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function() {
+                var base64String = reader.result;
+                base64Input.value = base64String.split(',')[1]; // Remove the data URL prefix
+                preview.src = base64String;
+            }
+            reader.readAsDataURL(file);
+        }
+    </script>
+    <div class="card w-75 text-center">
+        <div class="card-header text-center bold rounded-top">
             <h1>商品資料修改</h1>
         </div>
     <h3><b>所有欄位皆為必填欄位</b></h3>
-    <form th:action="@{merch/doUpdateMerch}" method="post" th:object="${merch}" enctype="multipart/form-data">
+    <form th:action="@{/merch/doUpdateMerch}" method="post" th:object="${merch}" enctype="multipart/form-data">
         <div class="mb-1 row">
             <label for="merchId" class="form-label col-4">商品編號:</label>
             <input id="merchId" class="form-control col-8" type="text" th:field="*{merchId}" readonly/><br/>
@@ -44,15 +63,14 @@
 
                 <div class="mb-1 row">
                     <label for="merchImg" class="form-label col-4">照片:</label>
-                    <input id="merchImg" class="form-control col-8" type="file" th:field="*{merchImg}" onclick="previewImage()" multiple="multiple" />
-                    <!-- 可以不修改圖片 <span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
-<!--                    <div id="blob_holder" class="mt-2"><img th:src="${merch.merchImg}" width="100px"></div>-->
-                    <div id="blob_holder"><img th:src="@{/merch/DBGifReader}" width="100px"></div>
+                    <input id="merchImg" class="form-control col-8" type="file" onchange="encodeImageFileAsURL()" />
+                    <input type="hidden" id="base64Img" name="base64Img" />
+                    <div><img id="imgPreview" th:src="'data:image/jpeg;base64,' + ${merch.merchImg}" width="100px"></div>
                 </div>
 
         <div>
-            <button class="btn btn-dark" type="submit"> 送出修改</button>
-<!--            <label th:text="${success}"></label>-->
+            <button class="btn btn-dark" type="submit"> 送出修改<label th:text="${success}"></label></button>
+
         </div>
     </form>
 
@@ -60,7 +78,10 @@
 
 
 <!-- JavaScript part-->
-<script type="text/javascript">
+<script>
+
+
+
     //清除提示信息
     function hideContent(d) {
         document.getElementById(d).style.display = "none";

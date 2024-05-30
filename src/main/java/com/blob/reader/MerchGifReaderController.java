@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Controller
+//@Controller
 @RequestMapping("/merch")
 public class MerchGifReaderController {
 
@@ -25,15 +25,15 @@ public class MerchGifReaderController {
     @GetMapping("DBGifReader")
     public void dBGifReader(@RequestParam("merchId") String merchId, HttpServletRequest req, HttpServletResponse res)
             throws IOException {
-        res.setContentType("image/gif");
-        ServletOutputStream out = res.getOutputStream();
-
-        try {
-//			EmpService empSvc = new EmpService();
-            out.write(merchService.getbyMerchId(Integer.valueOf(merchId)).getMerchImg());
-        } catch (Exception e) {
-            byte[] buf = java.util.Base64.getDecoder().decode("front_end/merchStore/images/merch.jpg");
-            out.write(buf);
-        }
+//        res.setContentType("image/gif");
+//        ServletOutputStream out = res.getOutputStream();
+//
+//        try {
+////			EmpService empSvc = new EmpService();
+//            out.write(merchService.getbyMerchId(Integer.valueOf(merchId)).getMerchImg());
+//        } catch (Exception e) {
+//            byte[] buf = java.util.Base64.getDecoder().decode("front_end/merchStore/images/merch.jpg");
+//            out.write(buf);
+//        }
     }
 }
